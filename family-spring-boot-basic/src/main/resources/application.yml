@@ -1,0 +1,7 @@
+server:
+  port: 8010
+spring:
+  servlet:
+    # MultipartProperties 映射配置信息
+    multipart:
+      max-file-size: 50MB

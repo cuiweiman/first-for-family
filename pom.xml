@@ -18,14 +18,17 @@
         <!--springboot 基础应用和源码学习-->
         <module>family-spring-boot-basic</module>
         <module>family-kafka</module>
+        <module>family-redisson</module>
     </modules>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
+        <spring-boot.version>3.1.0</spring-boot.version>
+        <gauva.version>31.1-jre</gauva.version>
+        <lombok.version>1.18.28</lombok.version>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.6.6</spring-boot.version>
-        <gauva.version>31.1-jre</gauva.version>
     </properties>
 
     <dependencyManagement>
@@ -42,6 +45,11 @@
                 <artifactId>guava</artifactId>
                 <version>${gauva.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -50,7 +58,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

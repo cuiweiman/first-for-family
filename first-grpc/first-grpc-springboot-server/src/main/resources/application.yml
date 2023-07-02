@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: grpc-springboot-server
+  main:
+    web-application-type: none
+
+
+grpc:
+  server:
+    port: 9091
+    enable-keep-alive: true
+    keep-alive-time: 30s
+    keep-alive-timeout: 3s
+    max-inbound-message-size: 1GB
+

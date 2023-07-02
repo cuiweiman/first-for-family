@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.first.family.grpc.future.message";
+option java_outer_classname = "FutureStubDemoProto";
+
+message FutureStubReq{
+  string name = 1;
+}
+
+message FutureStubResp{
+  string result = 1;
+}
+
+service FutureStubService{
+  rpc futureStubTest(FutureStubReq) returns (FutureStubResp){}
+}

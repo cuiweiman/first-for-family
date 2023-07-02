@@ -37,9 +37,7 @@ public class No0003LengthOfLongestSubstring {
         int len = 1;
         int head = 0;
         int foot = 1;
-        int count = 0;
         while (head <= foot && foot < s.length()) {
-            count++;
             String substring = s.substring(head, foot);
             if (substring.contains(s.substring(foot, foot + 1))) {
                 head++;

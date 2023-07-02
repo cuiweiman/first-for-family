@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: grpc-springboot-client
+  main:
+    web-application-type: servlet
+
+
+grpc:
+  client:
+    order-server:
+      address: 'static://127.0.0.1:9091'
+      negotiation-type: plaintext
+

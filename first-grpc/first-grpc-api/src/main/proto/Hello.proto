@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.first.family.grpc.api.message";
+option java_outer_classname = "HelloProto";
+
+/*
+  IDL 文件目的 发布 RCP 服务， service ----> message message <---- hello xxx
+*/
+message HelloRequest{
+  string name = 1;
+}
+
+message HelloResponse{
+  string result = 1;
+}
+
+message UserRequest{
+  repeated string username = 1;
+}
+message UserResponse{
+  string result = 1;
+}
+
+service HelloService{
+  //  普通 Unary RPC
+  rpc hello(HelloRequest) returns (HelloResponse){}
+  rpc userService(UserRequest) returns (UserResponse){}
+
+  //  服务端流式RPC
+  rpc streamService(HelloRequest) returns (stream HelloResponse){}
+
+  //  客户端流式RPC
+  rpc streamClient(stream HelloRequest) returns(HelloResponse){}
+
+  //  双向流式RPC
+  rpc streamAll(stream HelloRequest) returns(stream HelloResponse){}
+
+}
+

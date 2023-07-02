@@ -1,0 +1,21 @@
+server:
+  servlet:
+    context-path: /dev
+  port: 8890
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+redisson:
+  cluster-type: single
+  address: redis://127.0.0.1:6379
+  password:
+  database: 0
+  connection-minimum-idle-size: 24
+  connection-pool-size: 200
+  idle-connection-timeout: 10000
+  connect-timeout: 30000
+  timeout: 10000
+
+

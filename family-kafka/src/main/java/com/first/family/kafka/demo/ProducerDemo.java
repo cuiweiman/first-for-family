@@ -61,7 +61,10 @@ public class ProducerDemo {
         properties.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
         // 指定 producer 端最多阻塞的时长
         properties.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 3000);
+        // 自定义分区发送
         properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, PartitionDemo.class.getName());
+        // lz4 或 zstd, kafka适配最好的两种压缩算法
+        properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG,"lz4");
         return new KafkaProducer<>(properties);
     }
 }

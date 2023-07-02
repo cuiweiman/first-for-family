@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.first.family.sb.api.domain";
+option java_outer_classname = "OrderProto";
+
+/*
+  IDL 文件目的 发布 RCP 服务， service ----> message message <---- hello xxx
+*/
+message OrderRequest{
+  string name = 1;
+}
+
+message OrderResponse{
+  string result = 1;
+}
+
+service OrderService{
+  //  普通 Unary RPC
+  rpc order(OrderRequest) returns (OrderResponse){}
+}
+

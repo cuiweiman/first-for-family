@@ -22,10 +22,7 @@ import java.util.Optional;
 @SpringBootApplication
 public class GrpcServerApp {
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplicationBuilder(GrpcServerApp.class).build();
-        springApplication.setBannerMode(Banner.Mode.OFF);
-        springApplication.setWebApplicationType(WebApplicationType.NONE);
-        ConfigurableApplicationContext applicationContext = springApplication.run(args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(GrpcServerApp.class, args);
         applicationContext.registerShutdownHook();
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         try {

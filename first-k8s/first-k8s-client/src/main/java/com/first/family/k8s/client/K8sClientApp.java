@@ -1,8 +1,10 @@
-package com.first.family.sb.client;
+package com.first.family.k8s.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -11,15 +13,20 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 
 /**
- * @description:
+ * 启用服务发现 {@link EnableDiscoveryClient}
+ * 启用OpenFeign远程调用 {@link EnableFeignClients}
+ *
+ * @description: k8s服务发现 客户端模拟
  * @author: cuiweiman
- * @date: 2023/7/2 14:02
+ * @date: 2023/7/5 19:35
  */
 @Slf4j
+@EnableFeignClients
+@EnableDiscoveryClient
 @SpringBootApplication
-public class GrpcClientApp {
+public class K8sClientApp {
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(GrpcClientApp.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(K8sClientApp.class, args);
         applicationContext.registerShutdownHook();
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         try {
@@ -32,13 +39,13 @@ public class GrpcClientApp {
             String pid = (String) environment.getSystemProperties().get("PID");
             log.info("\n-------------------------------------------------------------\n" +
                     "\tJDK version: " + jdkVm + " " + jdkVersion + "\n" +
-                    "\tGrpcClientApp is running! (^_^) PID: " + pid + "\n" +
+                    "\tK8sClientApp is running! (^_^) PID: " + pid + "\n" +
                     "\tLocal: \t\thttp://localhost:" + port + path + "/\n" +
                     "\tExternal: \thttp://" + ip + ":" + port + path + "/\n" +
                     // "Swagger: \thttp://" + ip + ":" + port + path + "/doc.html\n" +
                     "-------------------------------------------------------------");
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+            log.error("application run error.", e);
         }
     }
 }

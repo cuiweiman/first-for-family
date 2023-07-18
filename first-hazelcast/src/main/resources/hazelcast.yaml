@@ -1,0 +1,136 @@
+# https://docs.hazelcast.com/
+# 参考: hazelcast-default.xml
+# 0 意味着 Integer.MAX_VALUE
+
+hazelcast:
+  # 集群名称，同一个集群名称的节点，组成集群
+  cluster-name: dev
+  # hazelcast 的端口，从 5701 开始，被占用后自增长 1，直到 100 之后的 5801
+  network:
+    port:
+      auto-increment: true
+      port-count: 100
+      port: 5701
+    outbound-ports:
+      - 0
+
+    # 节点发现机制配置
+    join:
+      # 自动检测新增节点
+      auto-detection:
+        enabled: true
+      # TCP 通信发现节点
+      tcp-ip:
+        enabled: true
+        interface: 127.0.0.1
+        # 节点的成员列表
+        member-list:
+          - 127.0.0.1
+  map:
+    default:
+      in-memory-format: BINARY
+      metadata-policy: CREATE_ON_UPDATE
+      backup-count: 1
+      async-backup-count: 0
+      time-to-live-seconds: 0
+      max-idle-seconds: 0
+      eviction:
+        eviction-policy: NONE
+        max-size-policy: PER_NODE
+        size: 0
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+      cache-deserialized-values: INDEX-ONLY
+      statistics-enabled: true
+      per-entry-stats-enabled: false
+      tiered-store:
+        enabled: false
+        memory-tier:
+          capacity:
+            unit: MEGABYTES
+            value: 256
+        disk-tier:
+          enabled: false
+          device-name: "default-tiered-store-device"
+  queue:
+    default:
+      max-size: 0
+      backup-count: 1
+      async-backup-count: 0
+      empty-queue-ttl: -1
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  multimap:
+    default:
+      backup-count: 1
+      value-collection-type: SET
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  replicatedmap:
+    default:
+      in-memory-format: OBJECT
+      async-fillup: true
+      statistics-enabled: true
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  list:
+    default:
+      backup-count: 1
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  set:
+    default:
+      backup-count: 1
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  reliable-topic:
+    default:
+      read-batch-size: 10
+      topic-overload-policy: BLOCK
+      statistics-enabled: true
+
+  ringbuffer:
+    default:
+      capacity: 10000
+      backup-count: 1
+      async-backup-count: 0
+      time-to-live-seconds: 0
+      in-memory-format: BINARY
+      merge-policy:
+        batch-size: 100
+        class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+  flake-id-generator:
+    default:
+      prefetch-count: 100
+      prefetch-validity-millis: 600000
+      epoch-start: 1514764800000
+      node-id-offset: 0
+      bits-sequence: 6
+      bits-node-id: 16
+      allowed-future-millis: 15000
+      statistics-enabled: true
+
+  serialization:
+    portable-version: 0
+
+  cardinality-estimator:
+    default:
+      backup-count: 1
+      async-backup-count: 0
+      merge-policy:
+        batch-size: 100
+        class-name: HyperLogLogMergePolicy
+
+

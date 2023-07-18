@@ -1,0 +1,140 @@
+####### service.yml 配置详解
+# service API 版本, service.apiVersion
+apiVersion: v1
+# 资源类型为 service
+kind: Service
+# 定于 service 的元数据, service.metadata
+metadata:
+  # 定义 service 的名称
+  name: client-service
+  namespace: default
+  # 自定义标签
+  labels:
+    app.kubernetes.io/name: client-service
+  # 备注信息
+  annotations:
+    # 创建人
+    creator: cuiweiman
+# 定义 service 的详细信息
+spec:
+  # service类型，定义服务的访问方式，默认ClusterIP,其它还有 NodePort
+  type: NodePort
+  ports:
+    # 端口名称
+    - name: client-port
+      # 端口协议
+      protocol: TCP
+      # service 端口
+      port: 8896
+      # 目标pod端口
+      targetPort: 8896
+      # 对外暴露的端口
+      nodePort: 30096
+  # 标签选择器，定义要 代理 的目标pod, 关联 Deployment
+  selector:
+    # 自定义标签 : 标签内容, 需要关联上 Deployment 中配置的标签
+    app.kubernetes.io/name: client-service
+
+
+---
+
+####### Deployment.yml 配置详解
+# 指定 api 版本
+apiVersion: apps/v1
+# 指定创建资源的类型为 Deployment
+kind: Deployment
+# 资源的元数据
+metadata:
+  # 资源名称，在同一个 namespace 中必须唯一
+  name: client-service
+  # 指定 namespace
+  namespace: default
+  # 设定资源标签
+  labels:
+    # 自定义标签 : 标签内容
+    app.kubernetes.io/name: client-service
+# 资源规范字段
+spec:
+  # 声明副本数量
+  replicas: 1
+  # 保留历史版本的个数
+  revisionHistoryLimit: 3
+  # 选择器
+  selector:
+    # 匹配标签
+    matchLabels:
+      # 自定义标签 和 内容
+      app.kubernetes.io/name: client-service
+  # 模板
+  template:
+    # 资源的元数据
+    metadata:
+      # 自定义注解列表
+      annotations:
+        # 自定义注解信息
+        creator: cuiweiman
+      # 设定资源的标签
+      labels:
+        app.kubernetes.io/name: client-service
+    # 资源规范字段
+    spec:
+      # 指定k8s中 system:serviceaccount:default:admin-user 的用户名，需要 k8s-role.yml 先创建
+      serviceAccountName: admin-user
+      # 容器信息配置
+      containers:
+        # 容器名称
+        - name: client-service
+          # 容器使用的镜像地址
+          image: "daocaoren22222/first_k8s_client:202307101430"
+          # 镜像拉取策略: Always、Never、IfNotPresent
+          imagePullPolicy: IfNotPresent
+          # 端口管理
+          ports:
+            # 端口名称
+            - name: server-port
+              # 容器对外的端口
+              containerPort: 8896
+              # 端口协议
+              protocol: TCP
+
+          # 资源管理
+          resources:
+            # 最大使用
+            limits:
+              # cpu 1core=1000m
+              cpu: 1000m
+              # 内存 1G=1000Mi
+              memory: 500Mi
+            # 最低资源要求
+            requests:
+              cpu: 100m
+              memory: 150Mi
+
+          # pod 内部健康检查的配置
+          livenessProbe:
+            httpGet:
+              path: /client/health
+              port: 8896
+              scheme: HTTP
+            # 容器启动n秒后,进行第一次容器健康检测
+            initialDelaySeconds: 30
+            # 检测超时时间
+            timeoutSeconds: 5
+            # 检测间隔时间
+            periodSeconds: 30
+            # 请求n次都成功, 才表示健康
+            successThreshold: 1
+            # 请求n次都失败, 才表示健康.将杀死pod并重新创建
+            failureThreshold: 5
+          # Pod 准备服务健康检查设置
+          readinessProbe:
+            httpGet:
+              path: /client/health
+              port: 8896
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 5
+

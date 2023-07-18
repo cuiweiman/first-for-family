@@ -1,0 +1,14 @@
+# 通过配置 VM options: -DPORT=8010 属性，传递参数、动态修改端口，然后可以启动多个实例
+server:
+  port: ${PORT:8010}
+
+spring:
+  main:
+    banner-mode: off
+    web-application-type: servlet
+
+#  Hazelcast yaml 方式配置
+  hazelcast:
+    config: classpath:hazelcast.yaml
+
+

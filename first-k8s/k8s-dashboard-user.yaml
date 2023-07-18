@@ -1,0 +1,36 @@
+#
+# 1. 创建 kubernetes-dashboard 空间的用户 admin-dashboard，并绑定到 cluster-admin 角色
+#   kubectl apply -f k8s-dashboard-user.yaml
+# 2. 获取 admin-dashboard 用户的 token
+#   kubectl -n kubernetes-dashboard create token admin-dashboard
+# 3. 启动 k8s-dashboard
+#   kubectl proxy
+# 4. 访问 k8s dashboard
+#   http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/workloads
+#
+#
+
+# 创建命名空间用户的配置 dashboard-adminuser.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-dashboard
+  namespace: kubernetes-dashboard
+
+---
+
+# 绑定命名空间用户的配置 dashboard-clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: kubernetes-dashboard
+  name: admin-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: admin-dashboard
+    namespace: kubernetes-dashboard
+

@@ -1,0 +1,10 @@
+server:
+  port: 8895
+spring:
+  main:
+    banner-mode: off
+    web-application-type: servlet
+  application:
+    # 可以与 k8s 部署后的 service name 同名
+    name: server-service
+

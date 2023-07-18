@@ -1,0 +1,44 @@
+########################################################################
+# 报错:
+# 1. services is forbidden: User "system:serviceaccount:default:default" cannot list resource "services" in API group "" in the namespace "default"
+# 2. Forbidden!Configured service account doesn't have access
+# 3. services is forbidden: User "system:serviceaccount:default:default" cannot list resource "services" in API group "" in the namespace "default": RBAC: clusterrole.rbac.authorization.k8s.io "endpoints-reader" not found.
+#
+# 权限指令测试：在 default 命名空间下，system:serviceaccount:default:default 用户是否可以获取services信息
+#  kubectl auth can-i get services --as=system:serviceaccount:default:default -n default
+#
+# 涉及内容: k8s RBAC, 需要给 system:serviceaccount:default:default 赋权 get 去访问 endpoints。
+#
+# 1. 创建 system:serviceaccount:default:admin-user 用户: kubectl apply -f k8s-role.yml
+# 1.2 查看创建的用户: kubectl get clusterrolebinding.rbac.authorization.k8s.io
+# 2. 修改 server-service和client-service的默认用户为 admin-user: 配置deploy.yml的 spec.template.spec.serviceAccountName 属性
+#  kubectl patch deploy --namespace default server-service -p '{"spec":{"template":{"spec":{"serviceAccount":"admin-user"}}}}'
+#  kubectl patch deploy --namespace default client-service -p '{"spec":{"template":{"spec":{"serviceAccount":"admin-user"}}}}'
+# 3. kubectl auth can-i get services --as=system:serviceaccount:default:admin-user -n default
+#   yes
+#
+########################################################################
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: admin-user
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  namespace: default
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: admin-user
+    namespace: default
+
+

@@ -5,6 +5,7 @@ spring:
   application:
     name: grpc-springboot-client
   main:
+    banner-mode: off
     web-application-type: servlet
 
 

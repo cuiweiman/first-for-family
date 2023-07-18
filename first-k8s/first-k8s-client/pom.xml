@@ -4,20 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.first</groupId>
-        <artifactId>first-for-family</artifactId>
+        <groupId>com.first.family.k8s</groupId>
+        <artifactId>first-k8s</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.first.redisson</groupId>
-    <artifactId>family-redisson</artifactId>
-
-    <properties>
-        <redisson.version>3.21.3</redisson.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <groupId>com.first.family.k8s.client</groupId>
+    <artifactId>first-k8s-client</artifactId>
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
@@ -33,7 +26,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.first.family.redisson.RedissonDemoApp</mainClass>
+                    <mainClass>com.first.family.k8s.client.K8sClientApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -59,30 +52,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>${redisson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

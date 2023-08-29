@@ -1,0 +1,117 @@
+#############################################################################################
+# standard 策略: 水平分片
+# mod 取模分片算法， 可以对 Long、Integer 等数字类型的分片健进行取模运算
+# HashMod 哈希取模分片算法, 可以对 String 等字符串类型的分片健进行取模运算(先取 Hash, 再进行模运算)
+# 开启 allow-range-query-with-inline-sharding: true 后，可支持范围查询操作
+#############################################################################################
+
+# Spring 配置
+spring:
+  # ShardingSphere 配置
+  sharding-sphere:
+    # 单机模式 Standalone 默认: 数据源和规则等元数据信息可以持久化，但无法同步到 ShardingSphere 实例
+    # 集群模式 Cluster: 多个 ShardingSphere 实例之间的元数据共享和分数场景下状态协调的能力。用于生产环境。
+    mode:
+      type: Standalone
+
+    # 属性配置 https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/props/
+    props:
+      # 日志中 展示修改以后的sql语句
+      sql-show: true
+      # 初始化 各个数据源 的 任务处理线程池
+      kernel-executor-size: 5
+      # 一次查询请求在每个数据库实例中所能使用的最大连接数
+      max-connections-size-per-query: 5
+
+    datasource:
+      # 自定义 数据源名称
+      names: coursedb_0, coursedb_1
+      # 数据源 信息 配置
+      coursedb_0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_0?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+      coursedb_1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_1?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+
+    rules:
+      # 分片规则: https://shardingsphere.apache.org/document/current/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/sharding/
+      sharding:
+        # 配置分布式唯一主键的生成策略 https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/builtin-algorithm/keygen/
+        key-generators:
+          # 主键策略自定义名称
+          my-snowflake:
+            # 策略类型
+            type: SNOWFLAKE
+            props:
+              name: cid_snowflake
+
+        # 分片算法配置
+        sharding-algorithms:
+          # 自定义 库分片算法名称,标准策略::行内表达式
+          database-inline:
+            type: INLINE
+            props:
+              algorithm-expression: coursedb_$->{cid % 2}
+              # 开启范围查找 inline 默认不支持范围查找
+              # allow-range-query-with-inline-sharding: true
+
+          # 标准策略::取模分片算法, 可以将策略全部配置上, 分表需要使用哪个就配置哪个，即插拔
+          # 分片结果是 sharding-column mod 2 = cid % 2, 类似 行表达式
+          database-mod:
+            type: MOD
+            props:
+              sharding-count: 2
+
+          # 自定义 表分片算法名称,标准策略::行内表达式
+          table-inline:
+            # 分片算法类型
+            type: INLINE
+            # 分片算法属性配置, 这里不能跟分库策略一样, 否则会导致有一半数据表没有机会插入数据
+            props:
+              algorithm-expression: course_$->{cid % 9 % 2}
+              # 开启范围查找, inline 默认不支持范围查找
+              # allow-range-query-with-inline-sharding: true
+
+          # 标准策略::取模分片算法, 可以将策略全部配置上, 分表需要使用哪个就配置哪个，即插拔
+          # 分片结果是 sharding-column mod 2 = cid % 2, 类似 行表达式
+          table-mod:
+            type: MOD
+            props:
+              sharding-count: 2
+
+
+        # 分库策略
+        default-database-strategy:
+          standard:
+            sharding-column: cid
+            sharding-algorithm-name: database-mod
+
+        # 分表策略
+        tables:
+          # course 表的分表规则
+          course:
+            key-generate-strategy:
+              column: cid
+              key-generator-name: my-snowflake
+            actual-data-nodes: coursedb_$->{0..1}.course_$->{0..1}
+            table-strategy:
+              standard:
+                sharding-column: cid
+                sharding-algorithm-name: table-mod
+
+
+
+
+
+
+
+
+
+

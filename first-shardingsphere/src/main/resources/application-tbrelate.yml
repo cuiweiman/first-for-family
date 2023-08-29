@@ -1,0 +1,123 @@
+#############################################################################################
+# 多表关联 t_order, t_order_item 的关联操作: 数据插入、查询
+# 1. 使用 user_id 进行 分库，避免同一用户的订单信息分布在不同的数据库中，导致查询时会涉及跨库查询
+# 2. 使用 order_no 进行 分表，同一订单分布在同一个表中
+# 3. 由于 user_id, order_no 都是字符串，因此使用 Standard 策略的 HASH_MOD 分片算法
+# 4. 绑定表 配置: 没有绑定表时, 查询过程中会对所有的库和关联表进行 笛卡尔积 方式的 全量查询；
+#  而由于分片策略（规定了数据落在具体的哪个库和表）, 部分库和关联表的 关联查询 是没有必要的。这需要绑定表来进行过滤
+#
+# 绑定表: 分片规则一致的一组分片表。使用绑定表进行多表关联查询时，必须使用分片键进行关联，否则绑定表不生效，
+#   仍然会出现笛卡尔积关联或跨库关联，影响查询效率。
+#
+# EG:本例中 库有: coursedb_0,coursedb_1, 每个库中分别有 t_order0, t_order1, t_order_item0, t_order_item1
+# - 没有配置绑定表时:
+#  笛卡尔积有 coursedb_0(t_order0,t_order_item0)、coursedb_0(t_order1,t_order_item0)、coursedb_0(t_order0,t_order_item1)、coursedb_0(t_order1,t_order_item1)、
+#     coursedb_1(t_order0,t_order_item0)、coursedb_1(t_order1,t_order_item0)、coursedb_1(t_order0,t_order_item1)、coursedb_1(t_order1,t_order_item1)
+# - 配置关联表之后: 查询效率明显提升一倍
+#     coursedb_0(t_order0,t_order_item0)、coursedb_0(t_order1,t_order_item1)
+#     coursedb_1(t_order0,t_order_item0)、coursedb_1(t_order1,t_order_item1)
+#############################################################################################
+
+# Spring 配置
+spring:
+  # ShardingSphere 配置
+  sharding-sphere:
+    # 单机模式 Standalone 默认: 数据源和规则等元数据信息可以持久化，但无法同步到 ShardingSphere 实例
+    # 集群模式 Cluster: 多个 ShardingSphere 实例之间的元数据共享和分数场景下状态协调的能力。用于生产环境。
+    mode:
+      type: Standalone
+
+    # 属性配置 https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/props/
+    props:
+      # 日志中 展示修改以后的sql语句
+      sql-show: true
+      # 初始化 各个数据源 的 任务处理线程池
+      kernel-executor-size: 5
+      # 一次查询请求在每个数据库实例中所能使用的最大连接数
+      max-connections-size-per-query: 5
+
+    datasource:
+      # 自定义 数据源名称
+      names: coursedb_0, coursedb_1
+      # 数据源 信息 配置
+      coursedb_0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_0?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+      coursedb_1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_1?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+
+    rules:
+      # 分片规则: https://shardingsphere.apache.org/document/current/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/sharding/
+      sharding:
+        # 配置分布式唯一主键的生成策略 https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/builtin-algorithm/keygen/
+        key-generators:
+          # 主键策略自定义名称
+          my-snowflake:
+            # 策略类型
+            type: SNOWFLAKE
+
+        # 分片算法配置
+        sharding-algorithms:
+          # 分库策略和算法
+          database-hash-mod:
+            type: HASH_MOD
+            props:
+              sharding-count: 2
+
+          # 分表策略和算法，自定义分片策略名称
+          table-hash-mod:
+            type: HASH_MOD
+            props:
+              sharding-count: 2
+
+        # 分库策略应用
+        default-database-strategy:
+          standard:
+            sharding-column: user_id
+            sharding-algorithm-name: database-hash-mod
+
+        # 分表策略应用
+        tables:
+          t_order:
+            # 主键生成策略
+            key-generate-strategy:
+              column: id
+              key-generator-name: my-snowflake
+            # 数据源与相关表
+            actual-data-nodes: coursedb_$->{0..1}.t_order$->{0..1}
+            # 分表策略
+            table-strategy:
+              standard:
+                sharding-column: order_no
+                sharding-algorithm-name: table-hash-mod
+          t_order_item:
+            # 主键生成策略
+            key-generate-strategy:
+              column: id
+              key-generator-name: my-snowflake
+            # 数据源与相关表
+            actual-data-nodes: coursedb_$->{0..1}.t_order_item$->{0..1}
+            # 分表策略
+            table-strategy:
+              standard:
+                sharding-column: order_no
+                sharding-algorithm-name: table-hash-mod
+
+        # 绑定表
+        binding-tables:
+          - t_order, t_order_item
+
+
+
+
+
+
+
+

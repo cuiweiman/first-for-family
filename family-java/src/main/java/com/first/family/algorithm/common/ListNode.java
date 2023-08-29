@@ -3,7 +3,7 @@ package com.first.family.algorithm.common;
 import java.util.Objects;
 
 /**
- * @description:
+ * @description: 链表节点
  * @author: cuiweiman
  * @date: 2022/11/18 11:22
  */

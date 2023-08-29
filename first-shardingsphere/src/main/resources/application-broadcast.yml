@@ -1,0 +1,58 @@
+#############################################################################################
+# 广播表: 所有的数据库，即分片数据源中，都存在的数据表，表结构在各数据源中完全一致。例如字典数据等。
+#############################################################################################
+
+# Spring 配置
+spring:
+  # ShardingSphere 配置
+  sharding-sphere:
+    # 单机模式 Standalone 默认: 数据源和规则等元数据信息可以持久化，但无法同步到 ShardingSphere 实例
+    # 集群模式 Cluster: 多个 ShardingSphere 实例之间的元数据共享和分数场景下状态协调的能力。用于生产环境。
+    mode:
+      type: Standalone
+
+    # 属性配置 https://shardingsphere.apache.org/document/current/cn/user-manual/common-config/props/
+    props:
+      # 日志中 展示修改以后的sql语句
+      sql-show: true
+      # 初始化 各个数据源 的 任务处理线程池
+      kernel-executor-size: 5
+      # 一次查询请求在每个数据库实例中所能使用的最大连接数
+      max-connections-size-per-query: 5
+
+    datasource:
+      # 自定义 数据源名称
+      names: coursedb_0, coursedb_1
+      # 数据源 信息 配置
+      coursedb_0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_0?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+      coursedb_1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/coursedb_1?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: ${my-mysql.password}
+
+    rules:
+      # 分片规则: https://shardingsphere.apache.org/document/current/cn/user-manual/shardingsphere-jdbc/yaml-config/rules/sharding/
+      sharding:
+        # 广播表
+        broadcast-tables:
+          - t_dict
+
+
+
+
+
+
+
+
+
+
+
+
+

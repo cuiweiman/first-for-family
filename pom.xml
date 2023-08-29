@@ -21,6 +21,9 @@
         <module>family-redisson</module>
         <module>first-k8s</module>
         <module>first-hazelcast</module>
+        <module>first-mqtt</module>
+        <module>first-shardingsphere</module>
+        <module>first-seata</module>
     </modules>
 
     <properties>

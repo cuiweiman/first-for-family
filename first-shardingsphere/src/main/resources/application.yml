@@ -1,0 +1,53 @@
+# tomcat (默认)服务器配置
+server:
+  port: 8909
+  tomcat:
+    threads:
+      max: 1024
+      min-spare: 10
+    # 服务器连接超时时间
+    connection-timeout: 10s
+    max-connections: 10240
+    # 请求最大正文长度
+    max-swallow-size: 2MB
+
+# MybatisPlus 配置信息
+mybatis-plus:
+  configuration:
+    # SQL日志输出 org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# Spring 配置
+spring:
+  profiles:
+    # 读写分离配置 MySQL 一主二从
+    # active: rwseparation
+
+    # 垂直分片 配置 standard 策略
+    # active: vertical
+
+    # 水平分片::Standard策略, 行表达式(Groovy)
+    # active: inline
+
+    # 水平分片::Standard策略,  MOD 取模算法
+    # active: mod
+
+    # 水平分片::Standard策略应用, 多表关联
+    # active: tbrelate
+
+    # 广播表
+    active: broadcast
+
+  servlet:
+    multipart:
+      max-file-size: 1GB
+
+  main:
+    web-application-type: SERVLET
+    banner-mode: off
+
+my-mysql:
+  # CS 服务器 IP 地址
+  cs-host: 0.0.0.0
+  # 本地数据库密码
+  password: *

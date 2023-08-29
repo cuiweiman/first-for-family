@@ -1,0 +1,12 @@
+package com.first.shardingsphere.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.first.shardingsphere.base.OrderItemEntity;
+
+/**
+ * @description:
+ * @author: cuiweiman
+ * @date: 2023/8/2 14:37
+ */
+public interface OrderItemMapper extends BaseMapper<OrderItemEntity> {
+}

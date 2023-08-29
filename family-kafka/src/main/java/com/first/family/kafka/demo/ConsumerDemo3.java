@@ -65,9 +65,9 @@ public class ConsumerDemo3 {
     }
 
     private static KafkaConsumer<String, String> initConsumer() {
-        String bootstrapServers = "211.140.107.236:9093";
-        String groupId = "MyTest";
-        String password = "QAZqwe@2022";
+        String bootstrapServers = "*";
+        String groupId = "*";
+        String password = "*";
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

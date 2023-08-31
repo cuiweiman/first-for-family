@@ -8,8 +8,8 @@ spring:
     banner-mode: off
 
 kafka:
-  bootstrap-servers: *
+  bootstrap-servers: 211.140.107.236:9093
   #  bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
-  group-id: *
-  password: *
+  group-id: MyTest
+  password: QAZqwe@2022
 

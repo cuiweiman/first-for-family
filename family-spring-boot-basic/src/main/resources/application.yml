@@ -5,3 +5,14 @@ spring:
     # MultipartProperties 映射配置信息
     multipart:
       max-file-size: 50MB
+
+chat:
+  ernieBot4:
+    ak: crCiCV11rmt4YEWD0z7a9k0Z
+    sk: bhrPsnCYW6t7xxGxDQYopZ0EmdzxCLrI
+    # access-token 有效期是 30天，使用中每20天更换一次
+    tokenValid: 20
+    tokenUrl: https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=%s&client_secret=%s
+    # ERNIE-Bot-turbo
+    chatUrl: https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/eb-instant?access_token=%s
+

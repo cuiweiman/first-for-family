@@ -15,4 +15,8 @@ public class MyUtil {
     public static void intArrPrint(int[] arr) {
         System.out.println(Arrays.toString(arr));
     }
+
+    public static void intArrPrint(String name, int[] arr) {
+        System.out.println(name + ": " + Arrays.toString(arr));
+    }
 }

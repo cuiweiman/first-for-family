@@ -17,7 +17,8 @@ public class No0206ReverseList {
         int[] array = {1, 2, 3, 4, 5};
         ListNode node = ListNode.createListNode(array);
         System.out.printf("原始节点: %s\n", node);
-        ListNode res = demo.reverseList(node);
+        // ListNode res = demo.reverseList(node);
+        ListNode res = demo.reverseList2(node);
         System.out.printf("反转结果: %s\n", res);
     }
 
@@ -40,5 +41,18 @@ public class No0206ReverseList {
         }
         return prev;
     }
+
+    public ListNode reverseList2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode curr = reverseList2(head.next);
+        // 1-2-3-4-5; 递归后 curr=5, head=4, 接下来从后向前调整节点 next 指针
+        head.next.next = head;
+        head.next = null;
+
+        return curr;
+    }
+
 }
 

@@ -48,6 +48,7 @@ public class No0001TwoSum {
     Map<Integer, Integer> map = new HashMap<>();
 
     public int[] twoSum2(int[] nums, int target) {
+        // 借助 map 存储，主要是遍历数组后，不用回头找之前的元素
         int[] res = new int[2];
         for (int i = 0; i < nums.length; i++) {
             int another = target - nums[i];

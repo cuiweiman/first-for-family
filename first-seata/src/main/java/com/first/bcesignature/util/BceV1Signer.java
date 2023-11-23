@@ -178,6 +178,13 @@ public class BceV1Signer {
         return ALTERNATE_ISO8601_DATE_FORMAT.print(new DateTime(date));
     }
 
+    public static void main(String[] args) {
+        Date date = new Date();
+        BceV1Signer signer = new BceV1Signer("", "", "");
+        String formatAlternateIso8601Date = signer.formatAlternateIso8601Date(date);
+        System.out.println(formatAlternateIso8601Date);
+    }
+
     public Integer getExpiration() {
         return EXPIRATION_PERIOD_IN_SECONDS;
     }

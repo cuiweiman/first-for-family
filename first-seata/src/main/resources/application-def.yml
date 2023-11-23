@@ -1,0 +1,14 @@
+# 省略默认配置，自动使用 file 类型的注册、配置
+seata:
+  service:
+    vgroup-mapping:
+      my_group: default
+    disable-global-transaction: false
+    grouplist:
+      default: 127.0.0.1:8091
+  tx-service-group: my_group
+  # 开启 数据源 自动 代理，结合 XA 代理模式配置，自动将普通 Datasource 对象使用 DataSourceProxyXA 代理，关闭后需手动代理
+  enable-auto-data-source-proxy: true
+  # 配置代理模式为 XA 模式 实现分布式事务
+  data-source-proxy-mode: XA
+

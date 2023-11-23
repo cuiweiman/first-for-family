@@ -1,0 +1,48 @@
+server:
+  port: 8890
+spring:
+  application:
+    name: family-seata
+
+  profiles:
+    active: def
+
+  datasource:
+    course1:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/coursedb_0?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: Baidu@123
+
+    course2:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/coursedb_1?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: Baidu@123
+
+
+#seata:
+#  re、、gistry:
+#    type: nacos
+#    nacos:
+#      application: first-seata
+#      server-addr: 127.0.0.1:8848
+#      namespace: 418f7bc2-28e5-456c-8538-20b72f111264
+#      username: nacos
+#      password: nacos
+#  config:
+#    type: nacos
+#    nacos:
+#      server-addr: 127.0.0.1:8848
+#      namespace: 418f7bc2-28e5-456c-8538-20b72f111264
+#      group: SEATA_GROUP
+#      username: nacos
+#      password: nacos
+#      data-id: first-seata-config.yaml
+#  service:
+#    vgroup-mapping:
+#      my_test_tx_group: default
+#    disable-global-transaction: false
+#    grouplist:
+#      default: 127.0.0.1:8091
+#  tx-service-group: my_test_tx_group

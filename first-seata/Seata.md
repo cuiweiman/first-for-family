@@ -231,7 +231,29 @@ store.db.lockTable=lock_table
 store.db.maxWait=5000
 ```
 
-## Java 客户端接入 Seata 服务
+## 接入 Seata 服务
+
+- java原生 API Demo: com.first.xa.java.XaDemo1
+- MyBatis原生 API Demo: com.first.seata.mybatis
+- SpringBoot 自动注入 Demo: com.first.MySeataApplication
+
+## Seata的 XA 模式原理
+
+![SeataXA](https://img.alicdn.com/tfs/TB1hSpccIVl614jSZKPXXaGjpXa-1330-924.png)
+
+1. seata服务端，即 TC Transaction Coordinator 事务协调者 正常运行
+2. 启动 Seata 客户端项目，自动初始化 TM 事务管理器 和 RM 资源管理器，将 TM 和 RM 注册(Netty通讯)到 TC。
+3. 执行@GlobalTransactional注解方法，TM 向 TC 发送 Netty 请求注册全局事务，TC 收到后生成唯一的全局事务 ID，响应给 TM，TM 存储在 ThreadLocal 类型变量中。
+4. RM(1) 从 ThreadLocal 中获取全局事务 ID 后向 TC 注册分支事务。TC 根据全局事务 ID 将 RM(1) 的分支事务关联到全局事务中的分支子事务，并响应 分支子事务 ID 给 RM(1) 。
+5. RM(1) 注册分支事务成功后，开启全局事务(xa start)—>执行业务逻辑代码—>结束全局事务(xa end)、xa prepare，向 TC 通讯事务情况。
+6. RM(2) 从 ThreadLocal 中获取全局事务 ID，向 TC 注册分支事务，TC 将分支事务加入到全局事务中，并返回分支子事务 ID 给 RM(2)。
+7. RM(2) 注册分支事务成功后，开启全局事务(xa start)—>执行业务逻辑代码—>结束全局事务(xa end)、xa prepare，向 TC 通讯事务情况。
+8. 如果 RM(1) 和 RM(2) 都执行成功，那么 TM 通知 TC，做全局事务提交；TC 收到通知后，再通知 RM1、RM2 分别做事务提交。
+9. 如果有分支子事务存在失败情况，那么 TM 先通知到 TC 需要回滚，TC 再通知到各个资源管理器 RM，资环管理器控制子分支事务进行事务回滚。
+
+
+
+
 
 
 

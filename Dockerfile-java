@@ -1,0 +1,23 @@
+FROM centos:7
+MAINTAINER cuiweiman
+
+RUN yum install kde-l10n-Chinese -y
+RUN yum install glibc-common -y
+RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+RUN export LANG=zh_CN.UTF-8
+RUN echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
+ENV LANG zh_CN.UTF-8
+ENV LC_ALL zh_CN.UTF-8
+
+RUN mkdir /usr/local/jdk
+
+USER root
+WORKDIR /usr/local/jdk
+ADD jdk-21_linux-x64_bin.tar.gz /usr/local/jdk
+
+ENV JAVA_HOME=/usr/local/jdk/jdk-21.0.1
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# docker builder ls
+# docker build -t daocaoren22222:21.0.1 -f Dockerfile-java . --platform=linux/amd64

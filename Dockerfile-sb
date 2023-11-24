@@ -1,0 +1,33 @@
+FROM docker.io/daocaoren22222/jdk-linux-x64:17.0.9
+#MAINTAINER cuiweiman
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/Shanghai">/etc/timezone
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+#ENV LC_ALL en_US.UTF-8
+
+RUN mkdir -p /data/work/fileUpload/{conf,logs/GCLogs}
+
+COPY target/FileUpload-1.0.jar /data/work/fileUpload/
+COPY target/classes/*.yml /data/work/fileUpload/conf/
+COPY target/classes/*.xml /data/work/fileUpload/conf/
+USER root
+WORKDIR /data/work/fileUpload
+
+VOLUME ["/data/work/fileUpload/"]
+
+RUN bash -c "touch /data/work/fileUpload/FileUpload-1.0.jar"
+
+ENTRYPOINT ["sh", "-c", "java -jar ${JAVA_OPTS} -Dspring.config.location=/data/work/fileUpload/conf/application.yml -Dspring.profiles.active=${ACTIVE} /data/work/fileUpload/FileUpload-1.0.jar ${0} ${@}"]
+
+#容器启动命令
+# docker build -t daocaoren22222/file-upload:1.0 . --platform linux/amd64
+#mkdir -p /data/cuiweiman/fileUpload/{conf,logs/GCLogs}
+#docker run -p 8996:8996 --name file_upload --restart=on-failure:3 \
+#  -e "JAVA_OPTS=-Xms1G -Xmx1G -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/data/work/fileUpload/logs/GCLogs/gc-%t.log:time,tid,tags:filecount=5,filesize=100m" \
+#  -e "ACTIVE=prod" \
+#  -v "/data/cuiweiman/fileUpload/conf:/data/work/fileUpload/conf" \
+#  -v "/data/cuiweiman/fileUpload/logs:/data/work/fileUpload/logs" \
+#  -v "/data/cuiweiman/fileUpload/statics:/data/work/fileUpload/statics" \
+#  -d {image-info}

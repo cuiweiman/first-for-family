@@ -1,6 +1,12 @@
 FROM centos:7
 MAINTAINER cuiweiman
 
+# 时区配置方法，可以二选一 之 方法一
+ENV TZ=Asia/Shanghai
+# 时区配置方法，可以二选一 之 方法二
+# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# RUN echo "Asia/Shanghai">/etc/timezone
+
 RUN yum install kde-l10n-Chinese -y
 RUN yum install glibc-common -y
 RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8

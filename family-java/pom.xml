@@ -20,6 +20,14 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <!-- disruptor -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <!--<version>4.0.0</version>-->
+            <version>3.4.4</version>
+        </dependency>
+
     </dependencies>
 
 </project>

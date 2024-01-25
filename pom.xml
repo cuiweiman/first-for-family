@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>for-family</name>
-    <description>first-for-family-2022.11</description>
+    <description>first-for-family-2024.5</description>
 
     <modules>
         <!--java 基础-->

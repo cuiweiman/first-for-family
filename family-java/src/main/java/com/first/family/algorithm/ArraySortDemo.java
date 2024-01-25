@@ -88,9 +88,6 @@ public class ArraySortDemo {
         return arr;
     }
 
-    /**
-     * 堆排序 O(nlogn)
-     */
     public void doQuickSort(int start, int stop, int[] arr) {
         // 记录初始的左右节点，递归时确定数组的左右边界
         int left = start;
@@ -120,6 +117,9 @@ public class ArraySortDemo {
         }
     }
 
+    /**
+     * 堆排序 O(nlogn)
+     */
     public int[] heapSort(int[] arr) {
         int len = arr.length;
         for (int i = len / 2 - 1; i >= 0; i--) {
@@ -128,9 +128,9 @@ public class ArraySortDemo {
             buildHeap(arr, i, len);
         }
         // 交换大顶堆的根值和堆的未元素，排除顶元素（根元素成未元素了）重新开始构建堆。
-        for (int i = len - 1; i >= 0; i--) {
+        for (int i = len - 1; i > 0; i--) {
             // 随着 i--，不再处理数组未的有序元素。
-            this.swap(arr, 0, i);
+            this.swap3(arr, 0, i);
             // 类似冒泡不断找到数组最大值，并移到最后。
             // 交换位置后，只需要判断交换位置的部分大小，其余都是按照大小顺序没变，
             // 因此大顶堆在首次构建好之后，不会再比较到最后一个元素了

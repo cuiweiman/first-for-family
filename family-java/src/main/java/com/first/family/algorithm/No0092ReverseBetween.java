@@ -21,6 +21,31 @@ public class No0092ReverseBetween {
         No0092ReverseBetween demo = new No0092ReverseBetween();
         ListNode listNode = demo.reverseBetween(root, left, right);
         System.out.println(listNode);
+
+        ListNode root2 = ListNode.createListNode(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+        ListNode listNode2 = demo.reverseBetweenNice(root2, 1, 3);
+        System.out.println(listNode2);
+    }
+
+    public ListNode reverseBetweenNice(ListNode head, int left, int right) {
+        ListNode result = new ListNode();
+        result.next = head;
+        ListNode start = result, stop = result;
+        // 确定需要反转的位置，使得 start.next ==> left, stop ==> right
+        for (int i = 0; i < right; i++) {
+            if (i + 1 < left) {
+                start = start.next;
+            }
+            stop = stop.next;
+        }
+        // System.out.println(start + "\n" + stop);
+        while (start.next != stop) {
+            ListNode current = start.next;
+            start.next = current.next;
+            current.next = stop.next;
+            stop.next = current;
+        }
+        return result.next;
     }
 
     public ListNode reverseBetween(ListNode head, int left, int right) {

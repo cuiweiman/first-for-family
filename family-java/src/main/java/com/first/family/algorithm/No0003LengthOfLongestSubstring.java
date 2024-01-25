@@ -2,6 +2,7 @@ package com.first.family.algorithm;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * 3. 无重复字符的最长子串
@@ -20,11 +21,33 @@ public class No0003LengthOfLongestSubstring {
         // String str = "abba";
         No0003LengthOfLongestSubstring algorithm = new No0003LengthOfLongestSubstring();
         int result = algorithm.lengthOfLongestSubstring(str);
-        // int result = algorithm.lengthOfLongestSubstring2(str);
-        // int result = algorithm.lengthOfLongestSubstring3(str);
         System.out.println(result);
+        int result2 = algorithm.lengthOfLongestSubstring2(str);
+        System.out.println(result2);
+        int result4 = algorithm.lengthOfLongestSubstring4(str);
+        System.out.println(result4);
+        // int result = algorithm.lengthOfLongestSubstring3(str);
 
 
+    }
+
+    public int lengthOfLongestSubstring4(String s) {
+        if (Objects.isNull(s) || s.isBlank()) {
+            return 0;
+        }
+        int len = 1;
+        int slow = 0;
+        int fast = 1;
+        while (slow < fast && fast < s.length()) {
+            String sub = s.substring(slow, fast);
+            if (sub.contains(s.substring(fast, fast + 1))) {
+                slow++;
+            } else {
+                fast++;
+            }
+            len = Math.max(len, fast - slow + 1);
+        }
+        return len;
     }
 
     /**
@@ -78,7 +101,7 @@ public class No0003LengthOfLongestSubstring {
      * 由于 String 由 char 构成，而 char 与 int 类型根据 ASCII 息息相关。因此……
      */
     public int lengthOfLongestSubstring3(String s) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return 0;
         }
         int len = 1, head = -1;

@@ -2,7 +2,9 @@ package com.first.family.concurrency.basic;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -12,6 +14,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * 双线程交替打印奇偶数
+ *
  * @description: 两个线程，一个打印奇数，一个打印偶数
  * @author: cuiweiman
  * @date: 2023/11/8 08:35

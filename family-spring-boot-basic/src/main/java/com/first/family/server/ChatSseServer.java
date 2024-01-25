@@ -83,6 +83,15 @@ public class ChatSseServer implements InitializingBean {
         });
     }
 
+    public SseEmitterUTF8 createConnect2() {
+        SseEmitterUTF8 sseEmitter = new SseEmitterUTF8(0L);
+        sseEmitter.onCompletion(() -> log.debug("[SSE disconnect] "));
+        sseEmitter.onTimeout(() -> log.debug("[SSE connect] timeout"));
+        sseEmitter.onError(throwable -> log.error("[SSE connect] error", throwable));
+        log.debug("[SSE connect] success");
+        return sseEmitter;
+    }
+
     public SseEmitterUTF8 createConnect(String clientId) {
         SseEmitterUTF8 sseEmitter = new SseEmitterUTF8(0L);
         sseEmitter.onCompletion(completionCallBack(clientId));

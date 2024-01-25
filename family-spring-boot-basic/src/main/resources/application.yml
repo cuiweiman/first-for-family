@@ -1,5 +1,7 @@
 server:
   port: 8010
+#  hello: English
+  hello: Japanese
 spring:
   servlet:
     # MultipartProperties 映射配置信息

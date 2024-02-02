@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * <a href="https://leetcode.cn/problems/single-number/">只出现一次的数字</a>
  *
- * @description: 136 只出现一次的数字
+ * @description: 136 只出现一次的数字: 0^n=n, n^n=0;
  * @author: cuiweiman
  * @date: 2023/11/21 18:59
  */

@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * @description:
+ * <a href="https://leetcode.cn/problems/balanced-binary-tree/description/">110. 平衡二叉树</a>
+ *
+ * @description: 110. 平衡二叉树: 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
  * @author: cuiweiman
  * @date: 2023/10/22 20:09
  */

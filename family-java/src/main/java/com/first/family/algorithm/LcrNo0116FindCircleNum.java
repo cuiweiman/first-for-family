@@ -1,5 +1,7 @@
 package com.first.family.algorithm;
 
+import java.util.concurrent.LinkedBlockingDeque;
+
 /**
  * <a href="https://leetcode.cn/problems/bLyHh0/">LCR 116. 省份数量</a>
  *
@@ -10,12 +12,19 @@ package com.first.family.algorithm;
 public class LcrNo0116FindCircleNum {
     public static void main(String[] args) {
         LcrNo0116FindCircleNum lcrNo0116FindCircleNum = new LcrNo0116FindCircleNum();
-        int[][] isConnected = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
-        int circleNum = lcrNo0116FindCircleNum.findCircleNumDfs(isConnected);
-        System.out.println("circleNum = " + circleNum);
         int[][] isConnected2 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
         int circleNum2 = lcrNo0116FindCircleNum.findCircleNumDfs(isConnected2);
         System.out.println("circleNum2 = " + circleNum2);
+
+        int[][] isConnected = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
+        int circleNum = lcrNo0116FindCircleNum.findCircleNumDfs(isConnected);
+        System.out.println("findCircleNumDfs = " + circleNum);
+
+        int depthFirstTraversal = lcrNo0116FindCircleNum.depthFirstTraversal(isConnected);
+        System.out.println("depthFirstTraversal = " + depthFirstTraversal);
+
+        int breadthFirstSearch = lcrNo0116FindCircleNum.breadthFirstSearch(isConnected);
+        System.out.println("breadthFirstSearch = " + breadthFirstSearch);
     }
 
     /**
@@ -51,12 +60,53 @@ public class LcrNo0116FindCircleNum {
     }
 
 
-    public int depthFirstTraversal(int[][] isConnected){
-
-
-        return 0;
+    public int depthFirstTraversal(int[][] isConnected) {
+        int count = 0;
+        boolean[] visited = new boolean[isConnected.length];
+        for (int i = 0; i < isConnected.length; i++) {
+            if (!visited[i]) {
+                depthFirst(isConnected, visited, i);
+                count++;
+            }
+        }
+        return count;
     }
-    private void depthFirst(){
 
+    public void depthFirst(int[][] isConnected, boolean[] visited, int city) {
+        if (visited[city]) {
+            return;
+        }
+        visited[city] = true;
+        for (int i = 0; i < isConnected[city].length; i++) {
+            if (!visited[i] && isConnected[city][i] == 1) {
+                depthFirst(isConnected, visited, i);
+            }
+        }
+    }
+
+    /**
+     * 广度优先
+     * 类似深度优先，把 递归 转换成 队列调用
+     */
+    public int breadthFirstSearch(int[][] isConnected) {
+        int count = 0;
+        boolean[] visited = new boolean[isConnected.length];
+        LinkedBlockingDeque<Integer> deque = new LinkedBlockingDeque<>();
+        for (int i = 0; i < isConnected.length; i++) {
+            if (!visited[i]) {
+                deque.addLast(i);
+                while (!deque.isEmpty()) {
+                    Integer removed = deque.removeFirst();
+                    visited[removed] = true;
+                    for (int j = 0; j < isConnected[i].length; j++) {
+                        if (!visited[j] && isConnected[i][j] == 1) {
+                            deque.addLast(j);
+                        }
+                    }
+                }
+                count++;
+            }
+        }
+        return count;
     }
 }

@@ -20,22 +20,22 @@ public class 二叉树 {
         TreeNode root = TreeNode.baseTreeNode();
 
         List<Integer> 前序遍历2 = demo.前序遍历2(root);
-        System.out.println(前序遍历2);
+        System.out.println("前序遍历2: " + 前序遍历2);
         List<Integer> 前序遍历 = demo.前序遍历(root);
-        System.out.println(前序遍历);
+        System.out.println("前序遍历: " + 前序遍历);
         List<Integer> 中序遍历2 = demo.中序遍历2(root);
-        System.out.println(中序遍历2);
+        System.out.println("中序遍历2: " + 中序遍历2);
         List<Integer> 中序遍历 = demo.中序遍历(root);
-        System.out.println(中序遍历);
+        System.out.println("中序遍历: " + 中序遍历);
         List<Integer> 后序遍历2 = demo.后序遍历2(root);
-        System.out.println(后序遍历2);
+        System.out.println("后序遍历2: " + 后序遍历2);
         List<Integer> 后序遍历 = demo.后序遍历(root);
-        System.out.println(后序遍历);
+        System.out.println("后序遍历: " + 后序遍历);
         Node levelNode = Node.levelNode();
         List<List<Integer>> 层序遍历2 = demo.层序遍历2(levelNode);
-        System.out.println(层序遍历2);
+        System.out.println("层序遍历2: " + 层序遍历2);
         List<List<Integer>> 层序遍历 = demo.层序遍历(levelNode);
-        System.out.println(层序遍历);
+        System.out.println("层序遍历: " + 层序遍历);
     }
 
     public List<Integer> 前序遍历(TreeNode root) {

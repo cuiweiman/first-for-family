@@ -20,9 +20,11 @@ public class 省份数量 {
         int count = 0;
         boolean[] visited = new boolean[isConnected.length];
         for (int i = 0; i < isConnected.length; i++) {
-            // 统计所有相邻的省份，计为一个省份，都要标记为 已访问-true
-            dfs(isConnected, visited, i);
-            count++;
+            if (!visited[i]) {
+                // 统计所有相邻的省份，计为一个省份，都要标记为 已访问-true
+                dfs(isConnected, visited, i);
+                count++;
+            }
         }
         return count;
     }
@@ -34,7 +36,8 @@ public class 省份数量 {
         visited[i] = true;
         for (int j = 0; j < isConnected[i].length; j++) {
             if (!visited[j] && isConnected[i][j] == 1) {
-                visited[j] = true;
+                dfs(isConnected, visited, j);
+                // visited[j] = true;
             }
         }
     }

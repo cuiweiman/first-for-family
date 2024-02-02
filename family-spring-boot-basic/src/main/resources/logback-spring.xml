@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <springProperty scope="context" name="logPath" source="logging.file.path" defaultValue="logs"/>
+    <springProperty scope="context" name="projectName" source="spring.application.name" defaultValue="apps"/>
+    <property name="projectName" value="${projectName}"/>
+    <property name="logDir" value="${logPath}"/>
+    <property name="logPattern" value="${PID:-} %d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] -- %-40.40logger{39}[%F:%L] %m%n"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">&lt;!&ndash; 控制台只打印INFO及以上日志 &ndash;&gt;
+            <level>INFO</level>
+        </filter>-->
+    </appender>
+
+    <appender name="debugLogFile" immediateFlush="false" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印debug日志 -->
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <appender name="infoLogFile" immediateFlush="false" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印info日志 -->
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="warnLogFile" immediateFlush="false" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印warn日志 -->
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="errorLogFile" immediateFlush="false" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印error日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="traceLogFile" immediateFlush="false" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/trace.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/trace.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印trace日志 -->
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="ctrlActionLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/ctrl_action_dl.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/ctrl_action_dl.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印warn日志 -->
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="usageActionLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${projectName}/usage_actions_dl.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${projectName}/usage_actions_dl.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印warn日志 -->
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="asyncTrace" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="traceLogFile"/>
+    </appender>
+    <appender name="asyncDebug" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="debugLogFile"/>
+    </appender>
+    <appender name="asyncInfo" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <neverBlock>true</neverBlock>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="infoLogFile"/>
+    </appender>
+    <appender name="asyncWarn" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <neverBlock>true</neverBlock>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="warnLogFile"/>
+    </appender>
+    <appender name="asyncError" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <neverBlock>true</neverBlock>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="errorLogFile"/>
+    </appender>
+
+    <logger name="ctrl_action_dl" level="WARN" additivity="false">
+        <appender-ref ref="ctrlActionLogFile"/>
+    </logger>
+    <logger name="usage_action_dl" level="WARN" additivity="false">
+        <appender-ref ref="usageActionLogFile"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="asyncTrace"/>
+        <appender-ref ref="asyncDebug"/>
+        <appender-ref ref="asyncInfo"/>
+        <appender-ref ref="asyncWarn"/>
+        <appender-ref ref="asyncError"/>
+    </root>
+
+</configuration>

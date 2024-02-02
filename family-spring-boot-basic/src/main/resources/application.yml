@@ -1,12 +1,14 @@
 server:
   port: 8010
-#  hello: English
+  #  hello: English
   hello: Japanese
 spring:
   servlet:
     # MultipartProperties 映射配置信息
     multipart:
       max-file-size: 50MB
+  application:
+    name: family-spring-boot-basic
 
 chat:
   ernieBot4:
@@ -21,3 +23,9 @@ chat:
   fast:
     chatUrl: https://ai.fastgpt.in/api/v1/chat/completions
     token: x
+
+# logging
+logging:
+  level:
+    root: info
+    center: debug

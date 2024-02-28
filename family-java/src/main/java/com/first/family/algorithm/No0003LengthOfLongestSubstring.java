@@ -16,8 +16,8 @@ public class No0003LengthOfLongestSubstring {
     public static void main(String[] args) {
         // String str = "abcabcbb";
         // String str = "bbbbb";
-        String str = "pwwkew";
-        // String str = " ";
+        // String str = "pwwkew";
+        String str = " ";
         // String str = "abba";
         No0003LengthOfLongestSubstring algorithm = new No0003LengthOfLongestSubstring();
         int result = algorithm.lengthOfLongestSubstring(str);
@@ -38,14 +38,14 @@ public class No0003LengthOfLongestSubstring {
         int len = 1;
         int slow = 0;
         int fast = 1;
-        while (slow < fast && fast < s.length()) {
+        while (slow <= fast && fast < s.length()) {
             String sub = s.substring(slow, fast);
             if (sub.contains(s.substring(fast, fast + 1))) {
                 slow++;
             } else {
                 fast++;
+                len = Math.max(len, sub.length() + 1);
             }
-            len = Math.max(len, fast - slow + 1);
         }
         return len;
     }

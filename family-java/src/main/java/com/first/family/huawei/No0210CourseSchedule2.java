@@ -47,10 +47,10 @@ import java.util.List;
 public class No0210CourseSchedule2 {
     public static void main(String[] args) {
         No0210CourseSchedule2 demo = new No0210CourseSchedule2();
-        /*int numCourses = 4;
-        int[][] prerequisites = {{1, 0}, {2, 0}, {3, 1}, {3, 2}};*/
-        int numCourses = 2;
-        int[][] prerequisites = {{1, 0}};
+        int numCourses = 4;
+        int[][] prerequisites = {{1, 0}, {2, 0}, {3, 1}, {3, 2}};
+        /*int numCourses = 2;
+        int[][] prerequisites = {{1, 0}};*/
         int[] order = demo.findOrder(numCourses, prerequisites);
         MyUtil.intArrPrint(order);
     }
@@ -60,6 +60,49 @@ public class No0210CourseSchedule2 {
     boolean valid = true;
 
     public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] result = new int[numCourses];
+        index = result.length - 1;
+        // 0-未搜索,1-搜索中,2-搜索完成
+        int[] visited = new int[numCourses];
+        List<List<Integer>> edges = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            edges.add(new ArrayList<>());
+        }
+        for (int i = 0; i < numCourses; i++) {
+            edges.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        }
+        for (int i = 0; i < prerequisites.length && valid; i++) {
+            // 开始遍历有向图
+            if (visited[i] == 0) {
+                dfs(edges, visited, i, result);
+            }
+        }
+        if (!valid) {
+            return new int[0];
+        }
+        return result;
+    }
+
+
+    private void dfs(List<List<Integer>> edges, int[] visited, int i, int[] result) {
+        visited[i] = 1;
+        for (Integer integer : edges.get(i)) {
+            if (visited[integer] == 0) {
+                dfs(edges, visited, integer, result);
+                if (!valid) {
+                    return;
+                }
+            } else if (visited[integer] == 1) {
+                // 拓扑有环
+                valid = false;
+                return;
+            }
+        }
+        visited[i] = 2;
+        result[index--] = i;
+    }
+
+    public int[] findOrder2(int numCourses, int[][] prerequisites) {
         // 使用数组模拟栈，存储最终结果。通过下标参数递减，模拟入栈操作
         int[] result = new int[numCourses];
         index = result.length - 1;
@@ -76,7 +119,7 @@ public class No0210CourseSchedule2 {
         // 开始遍历图
         for (int i = 0; i < numCourses && valid; i++) {
             if (visited[i] == 0) {
-                dfs(edges, visited, i, result);
+                dfs2(edges, visited, i, result);
             }
         }
         if (!valid) {
@@ -85,12 +128,12 @@ public class No0210CourseSchedule2 {
         return result;
     }
 
-    private void dfs(List<List<Integer>> edges, int[] visited, int i, int[] result) {
+    private void dfs2(List<List<Integer>> edges, int[] visited, int i, int[] result) {
         // 将节点标记为搜索中
         visited[i] = 1;
         for (Integer integer : edges.get(i)) {
             if (visited[integer] == 0) {
-                dfs(edges, visited, integer, result);
+                dfs2(edges, visited, integer, result);
                 if (!valid) {
                     return;
                 }

@@ -22,7 +22,44 @@ public class No0870AdvantageCount {
         No0870AdvantageCount demo = new No0870AdvantageCount();
         int[] result = demo.advantageCount(A, B);
         System.out.println(Arrays.toString(result));
+        int[] result2 = demo.advantageCount2(A, B);
+        System.out.println(Arrays.toString(result2));
     }
+
+    public int[] advantageCount2(int[] nums1, int[] nums2) {
+        int[] aSort = Arrays.copyOf(nums1, nums1.length);
+        int[] bSort = Arrays.copyOf(nums2, nums2.length);
+        Arrays.sort(aSort);
+        Arrays.sort(bSort);
+        // 存放 aSort 中小于 bSort 的元素
+        LinkedList<Integer> useless = new LinkedList<>();
+        // 存放 aSort 中大于 bSort 的元素，可能有多个，因此使用链表
+        Map<Integer, LinkedList<Integer>> map = new HashMap<>();
+        for (int i : bSort) {
+            map.put(i, new LinkedList<>());
+        }
+        // 开始遍历
+        int index = 0;
+        for (int aEle : aSort) {
+            if (aEle > bSort[index]) {
+                map.get(bSort[index]).addFirst(aEle);
+                index++;
+            } else {
+                useless.addFirst(aEle);
+            }
+        }
+        // 拼装
+        int[] result = new int[nums1.length];
+        for (int i = 0; i < nums2.length; i++) {
+            if (map.get(nums2[i]).isEmpty()) {
+                result[i] = useless.getFirst();
+            } else {
+                result[i] = map.get(nums2[i]).removeFirst();
+            }
+        }
+        return result;
+    }
+
 
     public int[] advantageCount(int[] nums1, int[] nums2) {
         // 排序

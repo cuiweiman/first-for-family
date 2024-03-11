@@ -14,10 +14,10 @@ import java.util.Objects;
  */
 public class No0086PartitionList {
     public static void main(String[] args) {
-        /*int[] array = {1, 4, 3, 2, 5, 2};
-        int x = 3;*/
-        int[] array = {2, 3};
-        int x = 2;
+        int[] array = {1, 4, 3, 2, 5, 2};
+        int x = 3;
+        /*int[] array = {2, 3};
+        int x = 2;*/
         ListNode test = ListNode.createListNode(array);
         No0086PartitionList demo = new No0086PartitionList();
         ListNode partition = demo.partition(test, x);
@@ -59,25 +59,27 @@ public class No0086PartitionList {
 
         int count = 0;
         ListNode last = head;
-        while (last.next != null) {
+        while (Objects.nonNull(last.next)) {
             last = last.next;
             count++;
         }
 
         ListNode result = new ListNode(0);
         result.next = head;
-        ListNode curr = result;
-        while (curr.next != null && count >= 0) {
-            if (curr.next.val < x) {
-                curr = curr.next;
+        ListNode prePtr = result;
+        while (Objects.nonNull(prePtr.next) && count >= 0) {
+            if (prePtr.next.val < x) {
+                prePtr = prePtr.next;
             } else {
-                last.next = curr.next;
+                ListNode curr = prePtr.next;
+                prePtr.next = curr.next;
+                curr.next=null;
+                last.next = curr;
                 last = last.next;
-                curr.next = last.next;
-                last.next = null;
             }
             count--;
         }
+
         return result.next;
     }
 }

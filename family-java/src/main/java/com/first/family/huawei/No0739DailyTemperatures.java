@@ -2,7 +2,7 @@ package com.first.family.huawei;
 
 import com.first.family.algorithm.common.MyUtil;
 
-import java.util.Arrays;
+import java.util.Deque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
@@ -40,12 +40,32 @@ public class No0739DailyTemperatures {
         No0739DailyTemperatures demo = new No0739DailyTemperatures();
         int[] result = demo.dailyTemperatures(temperatures);
         MyUtil.intArrPrint("answer: ", result);
+        int[] result2 = demo.dailyTemperatures2(temperatures);
+        MyUtil.intArrPrint("answer: ", result2);
+    }
+
+
+    public int[] dailyTemperatures2(int[] temperatures) {
+        int[] res = new int[temperatures.length];
+        if (temperatures.length == 0) {
+            return res;
+        }
+        // 存放暂时未找到下一个高温的下标
+        Deque<Integer> stack = new LinkedBlockingDeque<>();
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && temperatures[i] > stack.peek()) {
+                Integer pop = stack.pop();
+                res[pop] = i - pop;
+            }
+            stack.push(i);
+        }
+        return res;
     }
 
 
     public int[] dailyTemperatures(int[] temperatures) {
         int[] answer = new int[temperatures.length];
-        if (temperatures.length <= 1) {
+        if (temperatures.length == 0) {
             return answer;
         }
         // stack 存储的是 下标
@@ -61,45 +81,4 @@ public class No0739DailyTemperatures {
         return answer;
     }
 
-    public int[] dailyTemperatures2(int[] temperatures) {
-        int[] ans = new int[temperatures.length];
-        int[] next = new int[101];
-        Arrays.fill(next, Integer.MAX_VALUE);
-        for (int i = temperatures.length - 1; i >= 0; i--) {
-            int temp = Integer.MAX_VALUE;
-            for (int t = temperatures[i] + 1; t <= 100; t++) {
-                if (temp > next[t]) {
-                    temp = next[t];
-                }
-            }
-            if (temp < Integer.MAX_VALUE) {
-                ans[i] = temp - i;
-            }
-            next[temperatures[i]] = i;
-        }
-        return ans;
-    }
-
-    public int[] dailyTemperatures3(int[] temperatures) {
-        int[] answer = new int[temperatures.length];
-        if (temperatures.length == 0 || temperatures.length == 1) {
-            return answer;
-        }
-        // 双指针: 超出时间限制::从左向右计算，有很多重复比较和计算的部分
-        int curr = 0;
-        int next = 1;
-        for (int i = 0; i < temperatures.length; i++) {
-            while (next < temperatures.length && temperatures[curr] > temperatures[next]) {
-                next++;
-            }
-            if (next < temperatures.length) {
-                answer[curr] = next - curr;
-            } else {
-                answer[curr] = 0;
-            }
-            curr++;
-            next = curr + 1;
-        }
-        return answer;
-    }
 }

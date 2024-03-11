@@ -24,7 +24,36 @@ public class No0025ReverseGroup2 {
         System.out.println("剩余不足也K个反转: " + res2);
         ListNode res3 = demo.reverseKGroup3(ListNode.createListNode(array), k);
         System.out.println("从尾部开始K个一组反转: " + res3);
+        ListNode res4 = demo.reverseKGroup4(ListNode.createListNode(array), 3, 6);
+        System.out.println("反转指定区域的链表: " + res4);
     }
+
+    /**
+     * 反转 left 到 right 位置的元素
+     */
+    private ListNode reverseKGroup4(ListNode listNode, int begin, int stop) {
+        ListNode result = new ListNode();
+        result.next = listNode;
+        ListNode left = result;
+        ListNode right = result;
+
+        for (int i = 0; i < stop; i++) {
+            if (i < begin - 1) {
+                // 保持 left.next 指向反转的起始节点
+                left = left.next;
+            }
+            right = right.next;
+        }
+
+        while (left.next != right) {
+            ListNode curr = left.next;
+            left.next = curr.next;
+            curr.next = right.next;
+            right.next = curr;
+        }
+        return result.next;
+    }
+
 
     /**
      * 变形2，从链表尾部开始 k 个一组反转

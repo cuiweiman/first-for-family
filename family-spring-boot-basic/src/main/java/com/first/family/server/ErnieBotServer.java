@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -97,7 +99,7 @@ public class ErnieBotServer {
             map.put("messages", messages);
             String param = JsonUtil.toJson(map);
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(format))
-                    .header("Content-Type", "application/json")
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .POST(HttpRequest.BodyPublishers.ofString(param)).build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (HttpStatus.OK.value() == response.statusCode()) {

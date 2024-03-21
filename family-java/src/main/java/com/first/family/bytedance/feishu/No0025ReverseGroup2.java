@@ -71,7 +71,7 @@ public class No0025ReverseGroup2 {
         ListNode left = result;
         ListNode right = result;
 
-        int beginIndex = count % 3;
+        int beginIndex = count % k;
         for (int i = 0; i < beginIndex; i++) {
             left = left.next;
             right = right.next;

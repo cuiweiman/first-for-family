@@ -1,8 +1,11 @@
 package com.first.family.xiaomi;
 
+import com.first.family.algorithm.No0008MyAtoi;
+
 /**
  * @description: 字符串转数字
  * @author: cuiweiman
+ * @see No0008MyAtoi
  */
 public class Test1 {
     public static void main(String[] args) {

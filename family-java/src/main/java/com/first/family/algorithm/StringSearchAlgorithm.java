@@ -34,8 +34,47 @@ public class StringSearchAlgorithm {
         Integer bfFind3 = demo.bfFind3(text, pattern);
         System.out.println("bfFind3 = " + bfFind3);
 
-        Integer kmpFind = demo.kmpFind(text, pattern);
+        Integer kmpFind = demo.kmpFind2(text, pattern);
         System.out.println("kmpFind = " + kmpFind);
+    }
+
+    public Integer kmpFind2(String text, String pattern) {
+        int[] next = kmpNext(pattern);
+        int i = 0;
+        int j = 0;
+        while (i < text.length() && j < pattern.length()) {
+            if (j == -1 || text.charAt(i) == pattern.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                j = next[j];
+            }
+        }
+        if (j == pattern.length()) {
+            return i - j;
+        }
+        return -1;
+    }
+
+    public int[] kmpNext(String pattern) {
+        int[] next = new int[pattern.length()];
+        next[0] = -1;
+        // 存放 pattern 中重复的元素位置
+        int i = 0;
+        int j = -1;
+        while (i < pattern.length()) {
+            if (j == -1) {
+                i++;
+                j++;
+            } else if (pattern.charAt(i) == pattern.charAt(j)) {
+                i++;
+                j++;
+                next[i] = j;
+            } else {
+                j = next[j];
+            }
+        }
+        return next;
     }
 
     /**

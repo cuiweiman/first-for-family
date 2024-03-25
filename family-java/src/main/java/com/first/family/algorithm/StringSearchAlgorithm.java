@@ -3,13 +3,16 @@ package com.first.family.algorithm;
 import com.first.family.weizhong.Test1;
 
 /**
+ * <a href="https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/">28. 找出字符串中第一个匹配项的下标</a>
+ * <a href="https://leetcode.cn/problems/repeated-substring-pattern/description/">459. 重复的子字符串</a>
+ * <p>
  * 在 content 字符串中，找到首个完全匹配 find 字符串的子串，并返回该子串在 content 中的下标
  * <p>
  * KMP算法：通过查找 好前缀，移动好前缀个位置，减少匹配次数
  * <p>
  * BM算法 实现过程比较复杂，通过 坏字符 和 好后缀 移动，减少匹配次数。
  *
- * @description: 字符串匹配算法 / 字符串搜索算法
+ * @description: 字符串匹配算法 / 字符串搜索算法 28. 找出字符串中第一个匹配项的下标
  * @author: cuiweiman
  * @date: 2023/11/24 10:25
  * @see Test1
@@ -17,14 +20,15 @@ import com.first.family.weizhong.Test1;
 public class StringSearchAlgorithm {
 
     public static void main(String[] args) {
-        String text = "sdJpsdf";
+        // String text = "sdJpsdf";
         // String text = "ssdfsdf";
         // String text = "ssdasdb";
         // String text = "ssssdsdsdsdsdfsdf";
-        String pattern = "sdf";
+        // String pattern = "sdf";
+        // String pattern = "abab";
 
-        // String text = "BCADBCABCABCD";
-        // String pattern = "BCADBCD";
+        String text = "BCADBCABCABCD";
+        String pattern = "BCADBCA";
 
         StringSearchAlgorithm demo = new StringSearchAlgorithm();
         Integer bfFind = demo.bfFind(text, pattern);
@@ -34,12 +38,14 @@ public class StringSearchAlgorithm {
         Integer bfFind3 = demo.bfFind3(text, pattern);
         System.out.println("bfFind3 = " + bfFind3);
 
-        Integer kmpFind = demo.kmpFind2(text, pattern);
+        Integer kmpFind = demo.kmpFind(text, pattern);
         System.out.println("kmpFind = " + kmpFind);
+        Integer kmpFind2 = demo.kmpFind2(text, pattern);
+        System.out.println("kmpFind2 = " + kmpFind2);
     }
 
     public Integer kmpFind2(String text, String pattern) {
-        int[] next = kmpNext(pattern);
+        int[] next = kmpNext2(pattern);
         int i = 0;
         int j = 0;
         while (i < text.length() && j < pattern.length()) {
@@ -56,7 +62,7 @@ public class StringSearchAlgorithm {
         return -1;
     }
 
-    public int[] kmpNext(String pattern) {
+    public int[] kmpNext2(String pattern) {
         int[] next = new int[pattern.length()];
         next[0] = -1;
         // 存放 pattern 中重复的元素位置
@@ -67,9 +73,9 @@ public class StringSearchAlgorithm {
                 i++;
                 j++;
             } else if (pattern.charAt(i) == pattern.charAt(j)) {
+                next[i] = j + 1;
                 i++;
                 j++;
-                next[i] = j;
             } else {
                 j = next[j];
             }
@@ -103,7 +109,7 @@ public class StringSearchAlgorithm {
      * @return 模式串匹配位置
      */
     public Integer kmpFind(String text, String pattern) {
-        int[] kmpNext = kmpNext(pattern.toCharArray());
+        int[] kmpNext = kmpNext(pattern);
         // System.out.println(Arrays.toString(kmpNext));
         int i = 0;
         int j = 0;
@@ -128,20 +134,20 @@ public class StringSearchAlgorithm {
      * BCADBCD
      * *BCADBCD
      */
-    public int[] kmpNext(char[] pattern) {
-        int[] next = new int[pattern.length];
+    public int[] kmpNext(String pattern) {
+        int[] next = new int[pattern.length()];
         next[0] = -1;
         int i = 0;
         int j = -1;
-        while (i < pattern.length) {
+        while (i < pattern.length()) {
             if (j == -1) {
                 i++;
                 j++;
-            } else if (pattern[i] == pattern[j]) {
+            } else if (pattern.charAt(i) == pattern.charAt(j)) {
+                // 模式串的前缀和后缀匹配，则 第i个位置和第j个位置一样，比较完第i个位置后直接比较第j个位置。好前缀长度增1
+                next[i] = j + 1;
                 i++;
                 j++;
-                // 模式串的前缀和后缀匹配，则 第i个位置和第j个位置一样，比较完第i个位置后直接比较第j个位置
-                next[i] = j;
             } else {
                 // 回溯
                 j = next[j];
@@ -173,7 +179,7 @@ public class StringSearchAlgorithm {
     public Integer bfFind2(String text, String pattern) {
         int ptr1 = 0;
         int ptr2 = 0;
-        while (ptr2 < text.length() - pattern.length()) {
+        while (ptr1 < text.length() && ptr2 < pattern.length()) {
             // 剩余长度不足，则肯定 无匹配子串
             if (text.charAt(ptr1) == pattern.charAt(ptr2)) {
                 ptr1++;

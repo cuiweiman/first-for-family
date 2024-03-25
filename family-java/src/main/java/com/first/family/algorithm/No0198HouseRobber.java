@@ -31,12 +31,32 @@ package com.first.family.algorithm;
 public class No0198HouseRobber {
 
     public static void main(String[] args) {
-        int[] nums = {1, 2, 3, 1};
+        // int[] nums = {1, 2, 3, 1};
+        int[] nums = {2, 3, 2};
         No0198HouseRobber demo = new No0198HouseRobber();
         int robRecursion = demo.robRecursion(nums);
         System.out.println(robRecursion);
         int rob = demo.rob(nums);
         System.out.println(rob);
+        int rob2 = demo.rob2(nums);
+        System.out.println(rob2);
+    }
+
+    public int rob2(int[] nums) {
+        int len = nums.length;
+        if (len == 1) {
+            return nums[0];
+        } else if (len == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+        int first = nums[0];
+        int second = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < len; i++) {
+            int temp = second;
+            second = Math.max(first + nums[i], second);
+            first = temp;
+        }
+        return second;
     }
 
     /**

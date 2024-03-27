@@ -41,10 +41,14 @@ package com.first.family.algorithm.lchot100;
 public class No0005LongestPalindrome {
 
     public static void main(String[] args) {
-        String s = "babad";
+        // String s = "";
+        // String s = "a";
+        // String s = "babad";
         // String s = "dabcdcbae";
         // String s = "cdbd";
-        // String s = "abcdcb";
+        // String s = "cbbd";
+        String s = "abcdcb";
+        // String s = "aacabdkacaa";
         No0005LongestPalindrome demo = new No0005LongestPalindrome();
         String syy = demo.syy(s);
         System.out.println("syy = " + syy);
@@ -55,27 +59,47 @@ public class No0005LongestPalindrome {
     }
 
     public String longestPalindrome2(String s) {
-        String res = "";
+        if (s.isEmpty()) {
+            return s;
+        }
         int len = s.length();
+        int[][] dp = new int[len][len];
         int rows = 0;
         while (rows < len) {
-            for (int i = 0; i < len - rows; i++) {
+            for (int i = 0; i + rows < len; i++) {
                 int j = i + rows;
-                if (s.charAt(i) == s.charAt(j) && res.length() < s.substring(i, j + 1).length()) {
-                    res = s.substring(i, j + 1);
+                if (rows == 0) {
+                    dp[i][j] = 1;
+                } else if (rows == 1 && s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = 1;
+                } else if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = dp[i + 1][j - 1];
                 }
             }
             rows++;
         }
-        return res;
+        int temp = 0;
+        int begin = 0;
+        int end = 0;
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                if (dp[i][j] == 1 && temp < j - i) {
+                    temp = j - i;
+                    begin = i;
+                    end = j;
+                }
+            }
+        }
+        return s.substring(begin, end + 1);
     }
 
 
     public String longestPalindrome(String s) {
-        int temp = 0;
-        String res = "";
+        if (s.isEmpty()) {
+            return s;
+        }
         int len = s.length();
-        // int[][] dp = new int[len][len];
+        int[][] dp = new int[len][len];
         // 行数
         int rows = 0;
         // 行数 小于 数组长度
@@ -83,22 +107,45 @@ public class No0005LongestPalindrome {
             // 下标 i < len - rows, 下标 j = i + rows
             for (int i = 0; i < len - rows; i++) {
                 int j = i + rows;
-                if (s.charAt(i) == s.charAt(j)) {
-                    // dp[i][j] = 1;
-                    if (temp < j - i) {
-                        temp = j - i;
-                        // substring(begin,end) 左闭右开
-                        res = s.substring(i, j + 1);
-                    }
+                boolean equals = s.charAt(i) == s.charAt(j);
+                if (rows == 0) {
+                    dp[i][j] = 1;
+                } else if (rows == 1 && equals) {
+                    dp[i][j] = 1;
+                } else if (equals) {
+                    dp[i][j] = dp[i + 1][j - 1];
                 }
             }
             // 下一行
             rows++;
         }
-        return res;
+
+        int begin = 0;
+        int end = 0;
+        int temp = 0;
+        rows = 1;
+        while (rows < len) {
+            // 下标 i < len - rows, 下标 j = i + rows
+            for (int i = 0; i < len - rows; i++) {
+                int j = i + rows;
+                if (dp[i][j] == 1 && temp < j - i) {
+                    temp = j - i;
+                    begin = i;
+                    end = j;
+
+                }
+            }
+            // 下一行
+            rows++;
+        }
+        return s.substring(begin, end + 1);
     }
 
     public String syy(String s) {
+        if (s.isEmpty()) {
+            return s;
+        }
+
         int len = s.length();
         int[][] dp = new int[len][len];
 
@@ -127,7 +174,7 @@ public class No0005LongestPalindrome {
                 }
             }
         }
-        System.out.println(temp);
+        // System.out.println(temp);
         return s.substring(begin, end + 1);
     }
 }

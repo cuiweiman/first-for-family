@@ -19,7 +19,7 @@ import java.util.Optional;
 @SpringBootApplication
 public class RedissonDemoApp {
     public static void main(String[] args) throws UnknownHostException {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(RedissonDemoApp.class, args);
         applicationContext.registerShutdownHook();
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
 
@@ -30,13 +30,17 @@ public class RedissonDemoApp {
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = environment.getProperty("server.port", "8080");
         String path = Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
-
-        log.info("%n-------------------------------------------------------------%n"
-                        + "%t JDK version: {} {} %n" + "%t 应用 '{}' 启动成功!  (^_^)  PID: {} %n"
-                        + "%t 访问连接:%n"
-                        + "%t%t Knife4j 接口文档: %t%t http://{}:{}{}/doc.html%n"
-                        + "%t%t Druid 数据库监控: %t%t http://{}:{}{}/druid%n",
-                jdkVm, jdkVersion, appName, pid, ip, port, path, "127.0.0.1", port, path);
+        log.info("""
+                                
+                -------------------------------------------------------------
+                    JDK version: %s %s
+                    应用 %s 启动成功!  (^_^)  PID: %s
+                    访问链接:
+                        Knife4j 接口文档:   http://%s:%s%s/doc.html
+                        Druid 数据库监控:    http://%s:%s%s/druid
+                -------------------------------------------------------------
+                """.formatted(jdkVm, jdkVersion, appName, pid, ip, port, path, "127.0.0.1", port, path)
+        );
 
     }
 }

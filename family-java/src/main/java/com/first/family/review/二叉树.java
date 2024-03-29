@@ -36,6 +36,9 @@ public class 二叉树 {
         System.out.println("层序遍历2: " + 层序遍历2);
         List<List<Integer>> 层序遍历 = demo.层序遍历(levelNode);
         System.out.println("层序遍历: " + 层序遍历);
+
+        List<Integer> 层序遍历3 = demo.层序遍历3(root);
+        System.out.println("层序遍历3: " + 层序遍历3);
     }
 
     public List<Integer> 前序遍历(TreeNode root) {
@@ -183,6 +186,15 @@ public class 二叉树 {
         }
         return result;
     }
+
+    public List<Integer> 层序遍历3(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        return list;
+    }
+
+    public void do层序遍历3(TreeNode root, List<Integer> list) {
+    }
+
 
     public List<List<Integer>> 层序遍历2(Node root) {
         List<List<Integer>> result = new ArrayList<>();

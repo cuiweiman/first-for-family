@@ -14,11 +14,11 @@ public class No0394DecodeString {
 
     public static void main(String[] args) {
         No0394DecodeString demo = new No0394DecodeString();
-        // String test = "3[a2[c]]";
+        String test = "3[a2[c]]";
         // String test = "3[a]2[bc]";
         // String test = "2[abc]3[cd]ef";
         // String test = "abc3[cd]xyz";
-        String test = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef";
+        // String test = "3[z]2[2[y]pq4[2[jk]e1[f]]]ef";
         String s = demo.decodeString(test);
         System.out.println(s);
     }

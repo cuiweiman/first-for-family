@@ -24,11 +24,31 @@ import java.util.Objects;
 public class No0014LongestCommonPrefix {
 
     public static void main(String[] args) {
-        // String[] strs = {"flower", "flow", "flight"};
-        String[] strs = {"dog", "racecar", "car"};
+        String[] strs = {"flower", "flow", "flight"};
+        // String[] strs = {"dog", "racecar", "car"};
         No0014LongestCommonPrefix demo = new No0014LongestCommonPrefix();
         String result = demo.longestCommonPrefix(strs);
         System.out.println(result);
+        String result2 = demo.longestCommonPrefix2(strs);
+        System.out.println(result2);
+    }
+
+
+    public String longestCommonPrefix2(String[] strs) {
+        String prefix = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            int j = 0;
+            for (; j < strs[i].length(); j++) {
+                if (prefix.charAt(j) != strs[i].charAt(j)) {
+                    break;
+                }
+            }
+            prefix = prefix.substring(0, j);
+            if (prefix.isEmpty()) {
+                return "";
+            }
+        }
+        return prefix;
     }
 
 

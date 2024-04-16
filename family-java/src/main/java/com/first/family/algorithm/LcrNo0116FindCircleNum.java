@@ -61,7 +61,9 @@ public class LcrNo0116FindCircleNum {
 
 
     public int depthFirstTraversal(int[][] isConnected) {
+        // 统计省份数量
         int count = 0;
+        // 只需要 一个 一维数组 记录 每个节点是否被访问
         boolean[] visited = new boolean[isConnected.length];
         for (int i = 0; i < isConnected.length; i++) {
             if (!visited[i]) {

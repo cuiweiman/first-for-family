@@ -1,8 +1,9 @@
 package com.first.family.algorithm;
 
 
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <a href="https://leetcode.cn/problems/WhsWhI/">LCR 119. 最长连续序列</a>
@@ -21,10 +22,7 @@ public class LcrNo0119LongestConsecutive {
     }
 
     public int longestConsecutive(int[] nums) {
-        HashSet<Integer> set = new HashSet<>(nums.length);
-        for (int num : nums) {
-            set.add(num);
-        }
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
         int longest = 0;
         for (int num : nums) {
             if (set.contains(num - 1)) {
@@ -42,10 +40,7 @@ public class LcrNo0119LongestConsecutive {
 
 
     public int longestConsecutive2(int[] nums) {
-        Set<Integer> set = new HashSet<>(nums.length);
-        for (int num : nums) {
-            set.add(num);
-        }
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
         int longest = 0;
         for (int num : nums) {
             if (!set.contains(num - 1)) {

@@ -1,0 +1,11 @@
+rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  user: cuiweiman
+  password: cuiweiman
+  vHost: /
+  # exchange 、routeKey、queue 需要预先创建，并绑定 exchange、route-key、 queue 的关系
+  exchange: first-rabbitmq-exchange
+  route-key: first-rabbitmq-route-key
+  queue: first-rabbitmq-queue
+  consumer: 8

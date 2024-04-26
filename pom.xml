@@ -24,6 +24,7 @@
         <module>first-mqtt</module>
         <module>first-shardingsphere</module>
         <module>first-seata</module>
+        <module>first-rabbitmq</module>
     </modules>
 
     <properties>

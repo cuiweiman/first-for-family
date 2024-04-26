@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.first.family.rmq.msgproto";
+option java_outer_classname = "AMQPMessageProto";
+package amqp;
+import "model.proto";
+// Route Message definition
+message Message {
+  // message format version, current is 'v1'
+  string apiVersion = 1;
+  // message qos 0
+  int32 qos = 2;
+  // metadata for the message
+  model.Metadata metadata = 3;
+  // user specified message
+  bytes message = 4;
+}

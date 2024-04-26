@@ -1,0 +1,15 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.first.family.rmq.msgproto";
+option java_outer_classname = "ModelProto";
+// This proto contains commons models for different proto file
+package model;
+// The metadata of message
+message Metadata {
+  //  The unique id for the message
+  string uid = 1;
+  // The creation timestamp of the message
+  int64 createTime = 2;
+  // The tags of the message
+  map<string, string> labels = 3;
+}

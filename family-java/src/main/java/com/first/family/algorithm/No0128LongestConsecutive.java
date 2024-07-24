@@ -7,14 +7,15 @@ import java.util.stream.Collectors;
 
 /**
  * <a href="https://leetcode.cn/problems/WhsWhI/">LCR 119. 最长连续序列</a>
+ * <a href="https://leetcode.cn/problems/longest-consecutive-sequence/description/">128. 最长连续序列</a>
  *
  * @description: LCR 119. 最长连续序列
  * @author: cuiweiman
  * @date: 2023/12/15 15:35
  */
-public class LcrNo0119LongestConsecutive {
+public class No0128LongestConsecutive {
     public static void main(String[] args) {
-        LcrNo0119LongestConsecutive demo = new LcrNo0119LongestConsecutive();
+        No0128LongestConsecutive demo = new No0128LongestConsecutive();
         // int[] array = {0, 3, 7, 2, 5, 8, 4, 6, 0, 1};
         int[] array = {100, 4, 200, 1, 3, 2};
         System.out.println(demo.longestConsecutive(array));

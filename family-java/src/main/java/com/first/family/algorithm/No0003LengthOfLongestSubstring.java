@@ -2,7 +2,6 @@ package com.first.family.algorithm;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * 3. 无重复字符的最长子串
@@ -15,35 +14,36 @@ public class No0003LengthOfLongestSubstring {
 
     public static void main(String[] args) {
         // String str = "abcabcbb";
-        // String str = "bbbbb";
+        String str = "bbbbb";
         // String str = "pwwkew";
-        String str = " ";
+        // String str = " ";
         // String str = "abba";
         No0003LengthOfLongestSubstring algorithm = new No0003LengthOfLongestSubstring();
         int result = algorithm.lengthOfLongestSubstring(str);
         System.out.println(result);
         int result2 = algorithm.lengthOfLongestSubstring2(str);
         System.out.println(result2);
+        int result3 = algorithm.lengthOfLongestSubstring3(str);
+        System.out.println(result3);
         int result4 = algorithm.lengthOfLongestSubstring4(str);
         System.out.println(result4);
-        // int result = algorithm.lengthOfLongestSubstring3(str);
-
 
     }
 
     public int lengthOfLongestSubstring4(String s) {
-        if (Objects.isNull(s) || s.isBlank()) {
+        if (s.isEmpty()) {
             return 0;
         }
         int len = 1;
-        int slow = 0;
-        int fast = 1;
-        while (slow <= fast && fast < s.length()) {
-            String sub = s.substring(slow, fast);
-            if (sub.contains(s.substring(fast, fast + 1))) {
-                slow++;
+        int left = 0;
+        int right = 1;
+        while (left < right && right < s.length()) {
+            String sub = s.substring(left, right);
+            if (sub.contains(s.substring(right, right + 1))) {
+                left++;
+                right = left + 1;
             } else {
-                fast++;
+                right++;
                 len = Math.max(len, sub.length() + 1);
             }
         }
@@ -54,7 +54,7 @@ public class No0003LengthOfLongestSubstring {
      * 双指针
      */
     public int lengthOfLongestSubstring(String s) {
-        if (s == null || s.length() == 0) {
+        if (s.isEmpty()) {
             return 0;
         }
         int len = 1;
@@ -76,7 +76,7 @@ public class No0003LengthOfLongestSubstring {
      * 滑动窗口思想
      */
     public int lengthOfLongestSubstring2(String s) {
-        if (s == null || s.length() == 0) {
+        if (s.isEmpty()) {
             return 0;
         }
         char[] chars = s.toCharArray();

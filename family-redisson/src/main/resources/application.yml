@@ -9,15 +9,29 @@ spring:
     web-application-type: NONE
     allow-bean-definition-overriding: true
 
+#redisson:
+#  cluster-type: single
+#  address: redis://127.0.0.1:6379
+#  password:
+#  database: 0
+#  connection-minimum-idle-size: 24
+#  connection-pool-size: 200
+#  idle-connection-timeout: 10000
+#  connect-timeout: 30000
+#  timeout: 10000
+
 redisson:
-  cluster-type: single
-  address: redis://127.0.0.1:6379
-  password:
-  database: 0
-  connection-minimum-idle-size: 24
-  connection-pool-size: 200
+  # common config
+  cluster-type: cluster
+  address: redis://127.0.0.1:36377,redis://127.0.0.1:36378,redis://127.0.0.1:36379
+  password: yutang
   idle-connection-timeout: 10000
-  connect-timeout: 30000
+  connect-timeout: 5000
   timeout: 10000
+  # cluster config
+  master-connection-pool-size: 20
+  master-connection-minimum-idle-size: 20
+  slave-connection-pool-size: 32
+  slave-connection-minimum-idle-size: 20
 
 

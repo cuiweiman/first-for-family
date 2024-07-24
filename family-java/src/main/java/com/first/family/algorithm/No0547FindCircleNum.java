@@ -4,26 +4,27 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * <a href="https://leetcode.cn/problems/bLyHh0/">LCR 116. 省份数量</a>
+ * <a href="https://leetcode.cn/problems/number-of-provinces/description/">547. 省份数量</a>
  *
  * @description: 力扣 LCR 116. 省份数量
  * @author: cuiweiman
  * @date: 2023/12/19 10:27
  */
-public class LcrNo0116FindCircleNum {
+public class No0547FindCircleNum {
     public static void main(String[] args) {
-        LcrNo0116FindCircleNum lcrNo0116FindCircleNum = new LcrNo0116FindCircleNum();
+        No0547FindCircleNum no0547FindCircleNum = new No0547FindCircleNum();
         int[][] isConnected2 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-        int circleNum2 = lcrNo0116FindCircleNum.findCircleNumDfs(isConnected2);
+        int circleNum2 = no0547FindCircleNum.findCircleNumDfs(isConnected2);
         System.out.println("circleNum2 = " + circleNum2);
 
         int[][] isConnected = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
-        int circleNum = lcrNo0116FindCircleNum.findCircleNumDfs(isConnected);
+        int circleNum = no0547FindCircleNum.findCircleNumDfs(isConnected);
         System.out.println("findCircleNumDfs = " + circleNum);
 
-        int depthFirstTraversal = lcrNo0116FindCircleNum.depthFirstTraversal(isConnected);
+        int depthFirstTraversal = no0547FindCircleNum.depthFirstTraversal(isConnected);
         System.out.println("depthFirstTraversal = " + depthFirstTraversal);
 
-        int breadthFirstSearch = lcrNo0116FindCircleNum.breadthFirstSearch(isConnected);
+        int breadthFirstSearch = no0547FindCircleNum.breadthFirstSearch(isConnected);
         System.out.println("breadthFirstSearch = " + breadthFirstSearch);
     }
 

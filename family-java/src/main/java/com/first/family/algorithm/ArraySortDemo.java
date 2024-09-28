@@ -20,9 +20,38 @@ public class ArraySortDemo {
         // 快速排序
         int[] quickSort = demo.quickSort(new int[]{6, 5, 7, 1, 4, 2, 3});
         MyUtil.intArrPrint("quickSort", quickSort);
+        int[] quick = demo.quick(new int[]{6, 5, 7, 1, 4, 2, 3});
+        MyUtil.intArrPrint("quick", quick);
         // 堆排序
         int[] heapSort = demo.heapSort(new int[]{6, 5, 7, 1, 4, 2, 3});
         MyUtil.intArrPrint("heapSort", heapSort);
+    }
+
+    public int[] quick(int[] arr) {
+        doQuick(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    public void doQuick(int[] arr, int start, int stop) {
+        if (start > stop) {
+            return;
+        }
+        int left = start;
+        int right = stop;
+        int ptr = arr[left];
+        while (left < right) {
+            while (left < right && arr[right] > ptr) {
+                right--;
+            }
+            arr[left] = arr[right];
+            while (left < right && arr[left] < ptr) {
+                left++;
+            }
+            arr[right] = arr[left];
+        }
+        arr[left] = ptr;
+        doQuick(arr, start, left - 1);
+        doQuick(arr, right + 1, stop);
     }
 
     /**

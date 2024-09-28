@@ -22,8 +22,25 @@ public class No0001TwoSum {
 
         int[] twoSum = demo.twoSum(nums, target);
         System.out.println(Arrays.toString(twoSum));
-        int[] twoSum2 = demo.twoSum2(nums, target);
+        int[] twoSum2 = demo.twoSum3(nums, target);
         System.out.println(Arrays.toString(twoSum2));
+    }
+
+    Map<Integer, Integer> arrMap = new HashMap<>();
+
+    public int[] twoSum3(int[] arr, int target) {
+        int[] res = new int[2];
+        for (int i = 0; i < arr.length; i++) {
+            int another = target - arr[i];
+            if (arrMap.containsKey(another)) {
+                res[0] = arrMap.get(another);
+                res[1] = i;
+            } else {
+                arrMap.put(arr[i], i);
+            }
+
+        }
+        return res;
     }
 
     public int[] twoSum(int[] nums, int target) {

@@ -13,7 +13,7 @@ import com.first.family.weizhong.Test1;
  */
 public class No0008MyAtoi {
     public static void main(String[] args) {
-        // String str = "-42";
+        String str = "-42";
         // String str = "  -4193 with words";
         // String str = "words and 987";
         // String str = "-91283472332";
@@ -22,99 +22,73 @@ public class No0008MyAtoi {
         // String str = "-9223372036854775809";
         // String str = "18446744073709551617";
         // String str = "-2147483647";
-        String str = "-91283472332";
+        // String str = "-91283472332";
         No0008MyAtoi demo = new No0008MyAtoi();
-        // int myAtoi = demo.myAtoi(str);
-        int myAtoi = demo.myAtoi(str);
-        System.out.println(myAtoi);
+        int myAtoi2 = demo.myAtoi2(str);
+        System.out.println(myAtoi2);
+        int myAtoiLcr = demo.myAtoiLcr(str);
+        System.out.println(myAtoiLcr);
     }
 
-    public int myAtoi(String s) {
+    public int myAtoi2(String s) {
         s = s.trim();
-        if (s.isBlank()) {
+        if (s.isEmpty()) {
             return 0;
         }
-        System.out.println(Integer.MAX_VALUE + " " + Integer.MIN_VALUE);
-        // System.out.println((int) '+' + " " + (int) '-' + " " + (int) '0' + " " + (int) '9');
-        char[] charArray = s.toCharArray();
-        int result = 0;
-        boolean fu = false;
         int begin = 0;
-        if (charArray[0] == 43) {
-            begin = 1;
-        } else if (charArray[0] == 45) {
-            fu = true;
-            begin = 1;
-        }
-        for (int i = begin; i < charArray.length; i++) {
-            long temp;
-            if (charArray[i] < 48 || charArray[i] > 57) {
-                break;
-            }
-            temp = result * 10L + charArray[i] - 48L;
-            if (fu && -temp <= Integer.MIN_VALUE) {
-                result = Integer.MIN_VALUE;
-                break;
-            } else if (temp >= Integer.MAX_VALUE) {
-                result = Integer.MAX_VALUE;
-                break;
+        // 是否是 负数
+        boolean negative = false;
+        char firstChar = s.charAt(0);
+        if (firstChar < '0') {
+            // 小于 0 的ASCII，那么可能是 + 或 -，判断一下数字开始位置
+            if (firstChar == '-') {
+                negative = true;
+            } else if (firstChar == '+') {
+                negative = false;
             } else {
-                result = (int) temp;
+                // 首字符 既不是数字，也不是正负号，无法转换
+                return 0;
             }
+            // 首字符 是正负号，那么转换的位置 从下一个 开始
+            begin++;
         }
-        if (fu && result != Integer.MIN_VALUE) {
-            result = -result;
+        long result = 0;
+        while (begin < s.length() && result <= Integer.MAX_VALUE) {
+            int digit = Character.digit(s.charAt(begin++), 10);
+            result = result * 10 + digit;
         }
-        return result;
+        if (result >= Integer.MAX_VALUE) {
+            return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        }
+        return negative ? -(int) result : (int) result;
     }
 
-
     public int myAtoiLcr(String str) {
-        /*s ="-91283472332"
-        输出 -1089159116
-        预期结果 -2147483648*/
-
         str = str.trim();
         if (str.isEmpty()) {
             return 0;
         }
-        int result = 0;
-        boolean fuShu = false;
-
-        char[] charArray = str.toCharArray();
         int begin = 0;
-        if (charArray[0] == 43) {
-            begin = 1;
-        } else if (charArray[0] == 45) {
-            fuShu = true;
-            begin = 1;
-        }
-
-        for (int i = begin; i < charArray.length; i++) {
-            int num = charArray[i];
-            if (num >= 48 && num <= 57) {
-                if (fuShu) {
-                    long temp = -((-result) * 10L + num - 48L);
-                    if (temp <= Integer.MIN_VALUE) {
-                        result = Integer.MIN_VALUE;
-                        break;
-                    } else {
-                        result = (int) temp;
-                    }
-                } else {
-                    long temp = result * 10L + num - 48L;
-                    if (temp >= Integer.MAX_VALUE) {
-                        result = Integer.MAX_VALUE;
-                        break;
-                    } else {
-                        result = (int) temp;
-                    }
-                }
-            } else {
-                break;
+        boolean negative = false;
+        char c = str.charAt(0);
+        if (c < '0') {
+            if (c == '-') {
+                negative = true;
+            } else if (c != '+') {
+                // 收个字符非 正负号，且 ASCII 小于 0
+                return 0;
             }
+            begin++;
         }
-        return result;
+        long result = 0;
+        while (begin < str.length() && result <= Integer.MAX_VALUE) {
+            int digit = Character.digit(str.charAt(begin++), 10);
+            result = result * 10 + digit;
+        }
+        if (result >= Integer.MAX_VALUE) {
+            return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        }
+        return negative ? -(int) result : (int) result;
     }
 
 }

@@ -5,8 +5,9 @@ import java.util.HashMap;
 
 /**
  * 3. 无重复字符的最长子串
+ * <url http="https://leetcode.cn/problems/longest-substring-without-repeating-characters/">3. 无重复字符的最长子串</url>
  *
- * @description: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
+ * @description:
  * @author: cuiweiman
  * @date: 2022/11/17 10:44
  */
@@ -14,8 +15,8 @@ public class No0003LengthOfLongestSubstring {
 
     public static void main(String[] args) {
         // String str = "abcabcbb";
-        String str = "bbbbb";
-        // String str = "pwwkew";
+        // String str = "bbbbb";
+        String str = "pwwkew";
         // String str = " ";
         // String str = "abba";
         No0003LengthOfLongestSubstring algorithm = new No0003LengthOfLongestSubstring();
@@ -37,11 +38,10 @@ public class No0003LengthOfLongestSubstring {
         int len = 1;
         int left = 0;
         int right = 1;
-        while (left < right && right < s.length()) {
+        while (right < s.length()) {
             String sub = s.substring(left, right);
             if (sub.contains(s.substring(right, right + 1))) {
                 left++;
-                right = left + 1;
             } else {
                 right++;
                 len = Math.max(len, sub.length() + 1);

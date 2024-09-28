@@ -1,5 +1,7 @@
 package com.first.family.review;
 
+import com.first.family.algorithm.common.MyUtil;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +63,11 @@ public class 数组练习 {
         for (int j = 1; j < array.length; j++) {
             if (array[i] != array[j]) {
                 i++;
-                // array[i]=array[j]; // 将不重复的元素放置在数组靠前下标
+                array[i] = array[j]; // 将不重复的元素放置在数组靠前下标
             }
         }
+        int[] noRepeatArr = Arrays.copyOf(array, i);
+        MyUtil.intArrPrint("移除有序数组后的数组", noRepeatArr);
         return i;
     }
 

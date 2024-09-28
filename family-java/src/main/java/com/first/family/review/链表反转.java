@@ -52,20 +52,15 @@ public class 链表反转 {
     }
 
     public ListNode 反转2(ListNode listNode) {
-        ListNode result = new ListNode();
-        result.next = listNode;
-        ListNode left = result;
-        ListNode right = result;
-        while (Objects.nonNull(right.next)) {
-            right = right.next;
+        ListNode result = null;
+        ListNode curr = listNode;
+        while (Objects.nonNull(curr)) {
+            ListNode next = curr.next;
+            curr.next = result;
+            result = curr;
+            curr = next;
         }
-        while (left.next != right) {
-            ListNode curr = left.next;
-            left.next = curr.next;
-            curr.next = right.next;
-            right.next = curr;
-        }
-        return result.next;
+        return result;
     }
 
     public ListNode k个一组反转(ListNode listNode, int k) {

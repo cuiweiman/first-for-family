@@ -17,6 +17,28 @@ public class No0020IsValidParentheses {
         No0020IsValidParentheses demo = new No0020IsValidParentheses();
         boolean isValid = demo.isValid(parentheses);
         System.out.println(isValid);
+        boolean isValid3 = demo.isValid3(parentheses);
+        System.out.println(isValid3);
+    }
+
+    private boolean isValid3(String str) {
+        char[] temp = new char[str.length()];
+        int ptr = 0;
+        for (char c : str.toCharArray()) {
+            if (c == '{' || c == '[' || c == '(') {
+                temp[ptr++] = c;
+            } else if (ptr <= 0) {
+                // 没有 左括号 或 没有字符
+                return false;
+            } else if (c == '}' && temp[--ptr] != '{') {
+                return false;
+            } else if (c == ']' && temp[--ptr] != '[') {
+                return false;
+            } else if (c == ')' && temp[--ptr] != '(') {
+                return false;
+            }
+        }
+        return ptr == 0;
     }
 
     private boolean isValid(String s) {
@@ -35,7 +57,7 @@ public class No0020IsValidParentheses {
                 return false;
             }
         }
-        return ptr==0;
+        return ptr == 0;
     }
 
     private boolean isValid2(String s) {
